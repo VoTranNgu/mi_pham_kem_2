@@ -1,0 +1,76 @@
+﻿@{
+    Layout = null;
+}
+<style>
+    a {
+        text-decoration: none;
+    }
+</style>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="~/scripts/script.js"></script>
+    <link rel="stylesheet" href="~/css/LayoutStyle.css" />
+    <link rel="stylesheet" href="~/Content/bootstrap-grid.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Qwitcher+Grypen:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <a href="/Home/Index1" class="logo"><img src="~/lib/image/icon.jpg" width="100" height="100" /><span></span></a>
+        <nav class="navbar">
+            <a href="/Home/TrangChu/#home" style="text-decoration: none;">Trang chủ</a>
+            <a href="/Home/Product" style="text-decoration: none;">Sản phẩm</a>
+            <a href="/Home/TrangChu/#contact" style="text-decoration: none;">Danh mục</a>
+            <a href="/Home/TrangChu/#review" style="text-decoration: none;">Thương hiệu</a>
+            <a href="/Home/TrangChu/#about" style="text-decoration: none;">Về chúng tôi</a>
+        </nav>
+        <div class="icon">
+            <a href="#"><i class="fa-solid fa-user"></i></a>
+            <a href="#" title="Giỏ hàng">
+                <i class="fa-solid fa-cart-shopping"></i>
+            </a>
+            <a href="#" class="button-custom" style="text-decoration: none; color: white;"> Đăng xuất </a>
+            <a href="#home" style="text-decoration: none;"></a>
+
+        </div>
+    </header>
+    @RenderBody()
+    <section class="footer" style="margin-top:150px;">
+        <br />
+        <div class="box-container">
+            <div class="box">
+                <h3>Đến nhanh</h3>
+                <a href="/Home/TrangChu/#home" style="text-decoration: none;">Trang chủ</a>
+                <a href="/Home/TrangChu/#menu" style="text-decoration: none;">Sản phẩm</a>
+                <a href="/Home/TrangChu/#contact" style="text-decoration: none;">Danh mục</a>
+                <a href="/Home/TrangChu/#review" style="text-decoration: none;">Thương hiệu</a>
+                <a href="/Home/TrangChu/#about" style="text-decoration: none;">Về chúng tôi</a>
+            </div>
+
+            <div class="box">
+                <h3>Khu vực</h3>
+                <a href="#">TP. Hồ Chí Minh</a>
+                <a href="#">Hà Nội</a>
+                <a href="#">Đà Lạt</a>
+                <a href="#">Thừa Thiên Huế</a>
+            </div>
+            <div class="box">
+                <h3>Liên lạc</h3>
+                <a href="#">+84-329-343-390</a>
+                <a href="#">xuviet@gmail.com</a>
+                <a href="#">828 Đ. Sư Vạn Hạnh, Phường 12, Quận 10, Thành phố Hồ Chí Minh.</a>
+                @* <img src="~/images/thanhtoan.png" alt="" width="400" height="50"> *@
+            </div>
+        </div>
+        <br /><br />
+        <div class="credit"><span>Chella </span>- Nâng tầm vẻ đẹp, khẳng định khí chất</div>
+    </section>
+</body>
+</html>

@@ -1,0 +1,255 @@
+﻿@{
+    ViewBag.Title = "TrangChu";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("a").on('click', function (event) {
+            if (this.hash !== "") {
+                event.preventDefault();
+                var hash = this.hash;
+                $('html, body').animate({
+                    scrollTop: $(hash).offset().top
+                }, 800, function () {
+                    window.location.hash = hash;
+                });
+            }
+        });
+    });
+</script>
+<style>
+    section.contact .box-container {
+        margin-left: 50px;
+        margin-right: 50px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+    }
+
+        section.contact .box-container .box {
+            flex: 1 1 25rem;
+            justify-content: right; /* Căn giữa theo chiều ngang */
+            align-items: center; /* Căn giữa theo chiều dọc */
+        }
+
+    section.contact .box-title {
+        font-family: Oooh Baby;
+        color: #d2a373;
+        font-size: 40px;
+        position: absolute; /* Đặt tiêu đề ở vị trí tuyệt đối */
+        top: -68px; /* Dịch tiêu đề lên trên so với viền khung */
+        left: 20px; /* Canh lề trái của tiêu đề */
+        background-color: white; /* Đặt nền trắng để che đi phần viền phía sau */
+        padding: 0 10px; /* Tạo khoảng cách padding hai bên chữ */
+        font-weight: bold; /* In đậm chữ tiêu đề */
+    }
+
+    section.contact .infobox {
+        position: relative;
+        border: 2px solid #000;
+        padding: 20px;
+        border-radius: 8px;
+        display: flex; /* Sử dụng flexbox */
+        flex-direction: column; /*Đặt các phần tử con theo chiều dọc */
+        /*justify-content: center;*/ /* Căn giữa theo chiều dọc */
+        /*align-items: center;*/ /* Căn giữa theo chiều ngang */
+    }
+
+    section.contact .box-title {
+        font-family: Oooh Baby;
+        color: #d2a373;
+        font-size: 40px;
+        position: absolute; /* Đặt tiêu đề ở vị trí tuyệt đối */
+        top: -68px; /* Dịch tiêu đề lên trên so với viền khung */
+        left: 20px; /* Canh lề trái của tiêu đề */
+        background-color: white; /* Đặt nền trắng để che đi phần viền phía sau */
+        padding: 0 10px; /* Tạo khoảng cách padding hai bên chữ */
+        font-weight: bold; /* In đậm chữ tiêu đề */
+    }
+
+    section.contact .box-container .box h3 {
+        color: #333;
+        font-size: 2.5rem;
+        padding: 1rem 0;
+    }
+
+    section.contact .box-container .box a {
+        display: block;
+        color: #666;
+        font-size: 1.5rem;
+        padding: 1rem 0;
+    }
+
+        section.contact .box-container .box a:hover {
+            color: var(--pink);
+            text-decoration: underline;
+        }
+
+    section.contact .box-container .box img {
+        margin-top: 1rem;
+    }
+
+    section.contact input {
+        height: 40px;
+        border-color: #d2a373;
+        border-radius: 30px;
+        border-width: 2px;
+        width: 80%;
+        flex: 1;
+        margin-left: 15px;
+    }
+
+        section.contact input .placeholder {
+            margin-left: 25px;
+        }
+
+    section.contact label {
+        display: flex;
+    }
+</style>
+<head>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Great+Vibes&family=Oooh+Baby&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="~/Content/csstrangchu.css" />
+    <link rel="stylesheet" href="~/Content/bootstrap-grid.css" />
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Qwitcher+Grypen:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Qwitcher+Grypen:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <section class="video-section">
+        <video autoplay muted loop playsinline class="bg-video">
+            <source src="~/lib/image/banner.mp4" type="video/mp4">
+            Trình duyệt của bạn không hỗ trợ video.
+        </video>
+        <div class="content">
+            <h1>CHELLA</h1>
+        </div>
+    </section>
+
+
+    <section class="about" id="about">
+        <div class="text" style=" text-align: justify ">
+            <h1 style="color: black; line-height: 0.3;">Về chúng tôi</h1>
+            <p style="font-size: 20px; line-height: 1.5; max-width: 650px;">
+                Nhà hàng Sứ tự hào là điểm đến ẩm thực đẳng cấp, nơi hội tụ của những tinh hoa ẩm thực truyền thống và hiện đại. Với không gian sang trọng, thanh lịch và gần gũi với thiên nhiên, Sứ mang đến trải nghiệm ẩm thực độc đáo, tinh tế trong từng món ăn.<br />
+                Với không gian ấm cúng và phong cách bài trí mang đậm nét văn hóa Việt, Xứ Việt không chỉ là nơi để thưởng thức món ăn, mà còn là hành trình khám phá di sản ẩm thực của đất nước. Đội ngũ đầu bếp tài hoa của chúng tôi luôn cẩn trọng trong từng bước chế biến, kết hợp hài hòa giữa kỹ thuật hiện đại và phong vị truyền thống, nhằm mang đến cho thực khách những món ăn chất lượng nhất.
+            </p>
+            <button class="reservation-btn" style="margin-top:30px"> Tìm hiểu thêm </button>
+        </div>
+        @*<video width="900" height="550" flop autoplay muted>
+                <source src="~/images/short.mp4" type="video/mp4" />
+            </video>*@
+        <video src="~/images/short.mp4" class="video" width="615" height="550" style="margin-left:50px" loop autoplay muted></video>
+        @*<div class="image">
+            <img src="~/images/about.png" width="850" height="550" />*@
+
+    </section>
+    <section class="menu" id="menu">
+        <h1 style="color: #d2a373; text-align:right;">Thực đơn nổi bật</h1>
+        <div class="slide-show">
+            <div class="list-image">
+                <img src="~/images/slide1.png" alt="" />
+                <img src="~/images/slide2.png" alt="" />
+                <img src="~/images/slide4.png" alt="" />
+            </div>
+            <div class="btns">
+                <div class="btn-left btn"><i class='bx bx-chevron-left'></i></div>
+                <div class="btn-right btn"><i class='bx bx-chevron-right'></i></div>
+            </div>
+        </div>
+        <script src="~/Scripts/index.js"></script>
+        <div style="text-align: center; margin-top: 50px; margin-bottom: 50px">
+            <a href="/MonAn/XemThucDon" class="reservation-btn" style="text-decoration: none;"> Xem thực đơn </a>
+        </div>
+    </section>
+    <section class="review" id="review">
+        <h1 style="text-align: center; color:white;">
+            Lưu bút của xứ Việt
+        </h1>
+        <div class="box-container">
+            <div class="row justify-content-center">
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="box">
+                        <div class="image">
+                            <img src="~/images/reviewavt1.jpg" alt="review_avt_1" class="img-fluid rounded-circle" />
+                        </div>
+                        <h2><b>Ngọc Ánh</b></h2>
+                        <div class="content">
+                            <p>
+                                "Tôi và gia đình đã có một bữa tối tuyệt vời tại quán ăn Xứ Quê. Món ăn vừa ngon, vừa mang đậm hương vị truyền thống Việt Nam. Không gian ấm cúng và nhân viên phục vụ rất thân thiện. Đặc biệt, món phở bò và bánh xèo thật sự tuyệt vời! Chúng tôi sẽ trở lại đây thường xuyên hơn!"
+                                <br /><br />
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="box">
+                        <div class="image">
+                            <img src="~/images/reviewavt2.jpg" alt="review_avt_2" class="img-fluid rounded-circle" />
+                        </div>
+                        <h2><b>Quốc Hưng</b></h2>
+                        <div class="content">
+                            <p>
+                                "Xứ Quê thật sự là một địa điểm lý tưởng cho những ai yêu thích ẩm thực truyền thống Việt Nam. Các món ăn ở đây hương vị rất đậm đà và đúng chuẩn vị. Không gian quán mang nét mộc mạc, gần gũi, khiến tôi cảm giác như đang về quê nhà. Đội ngũ nhân viên rất nhiệt tình và chu đáo. Chắc chắn sẽ quay lại nhiều lần nữa!"
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="box">
+                        <div class="image">
+                            <img src="~/images/reviewavt3.jpg" alt="review_avt_3" class="img-fluid rounded-circle" />
+                        </div>
+                        <h2><b>Thùy Du</b></h2>
+                        <div class="content">
+                            <p>
+                                "Món ăn không chỉ ngon mà còn được trang trí rất đẹp mắt. Nhân viên phục vụ chuyên nghiệp và rất chu đáo. Mọi người đều khen ngợi về không gian và thức ăn. Chắc chắn sẽ giới thiệu quán này cho bạn bè và gia đình!"
+                                <br />
+                                <br />
+                                <br />
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact" id="contact">
+        <br /><br /><br /><br />
+        <div class="box-container">
+            <div class="box" style="margin-right:30px; margin-top:-85px; max-width: 50%">
+                <h1>Gửi gắm ý<br />kiến của bạn</h1>
+                <p>Nhà hàng sẽ không thể phát triển như ngày hôm nay nếu thiếu đi những ý kiến của các bạn. <br />Nếu bạn có điều gì muốn góp ý thì đừng ngần ngại điền vào form bên phải để gửi góp ý của bạn cho nhà hàng nha!</p>
+            </div>
+            @using (Html.BeginForm("TrangChu", "Home", FormMethod.Post))
+            {
+                <div class="box" style="width: 290%">
+                    <div class="infobox">
+                        <div class="box-title"><p>Điền đánh giá : </p></div>
+                        <label for="rate" style="margin-bottom: 20px; margin-top: 100px">
+
+                        </label>
+                        <input type="submit" value="Gửi đánh giá" class="reservation-btn" />
+                    </div>
+                </div>
+            }
+
+        </div>
+    </section>
+</body>

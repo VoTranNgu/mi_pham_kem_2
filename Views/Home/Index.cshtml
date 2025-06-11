@@ -1,0 +1,118 @@
+﻿@model IEnumerable<mi_pham_kem.Models.SQLServer.SanPham>
+@using mi_pham_kem.Models.SQLServer
+
+@{
+    ViewBag.Title = "TrangChu";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    <script>
+    $(document).ready(function () {
+        $("a").on('click', function (event) {
+            if (this.hash !== "") {
+                event.preventDefault();
+                var hash = this.hash;
+                $('html, body').animate({
+                    scrollTop: $(hash).offset().top
+                }, 800, function () {
+                    window.location.hash = hash;
+                });
+            }
+        });
+
+        const buttons = document.querySelectorAll('.category-btn');
+        const products = document.querySelectorAll('.custom-card');
+
+        buttons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                buttons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const category = btn.getAttribute('data-category');
+
+                products.forEach(product => {
+                    const dm = product.getAttribute('data-danhmuc') + "";
+                    if (category === "all" || dm === category) {
+                        product.parentElement.style.display = 'block';
+                    } else {
+                        product.parentElement.style.display = 'none';
+                    }
+                });
+            });
+        });
+    });
+</script>
+
+</script>
+<style>
+    section.product {
+        padding: 30px;
+    }
+
+        section.product h1 {
+            font-size: 70px;
+            font-weight: normal;
+            font-family: "Pacifico", cursive;
+            color: #de5f94;
+            text-align: center;
+        }
+</style>
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="~/css/TrangChuStyle.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Edu+NSW+ACT+Cursive:wght@400..700&family=Edu+VIC+WA+NT+Hand+Pre:wght@400..700&family=Pacifico&family=Quicksand:wght@300..700&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <section class="video-section">
+        <video autoplay muted loop playsinline class="bg-video">
+            <source src="~/lib/image/banner.mp4" type="video/mp4">
+            Trình duyệt của bạn không hỗ trợ video.
+        </video>
+        <div class="content">
+            <h1>chella</h1>
+        </div>
+    </section>
+    <section class="product">
+        <h1>Sản phẩm</h1>
+        <br />
+        <button class="button-custom category-btn me-2" data-category="all">Tất cả</button>
+        @foreach (var dm in ViewBag.DanhMucs as List<mi_pham_kem.Models.SQLServer.DanhMucSp>)
+        {
+            <button class="button-custom category-btn me-2" data-category="@dm.MaDm">@dm.TenDanhMuc</button>
+        }
+
+        <br />
+        <div class="container">
+            <div class="row">
+                @foreach (var item in Model)
+                {
+                    <div class="col-lg-3 col-md-4 col-sm-6 mb-4 d-flex align-items-stretch">
+                        <div class="card w-100 custom-card" data-danhmuc="@item.MaDm">
+                            <img src="@item.HinhAnh" class="card-img-top" alt="Ảnh sản phẩm" style="height: 280px; object-fit: cover;" />
+                            <div class="card-body">
+                                <h5 class="card-title fw-bold", style="font-size:27px">@item.TenSanPham</h5>
+                                <p class="card-text text-black">
+                                    @item.MaThNavigation.TenThuongHieu - @item.MaDmNavigation.TenDanhMuc
+                                </p>
+                                <p class="card-text">
+                                    <span style="color: #de5f94; font-weight: bold; font-size: 24px">
+                                        @String.Format("{0:N0}", item.Gia) ₫
+                                    </span>
+                                    <span class="text-muted text-decoration-line-through">@String.Format("{0:N0}", item.Gia + 20000) ₫</span>
+                                </p>
+                                <a href="#" class="button-custom" style="text-decoration: none; color: white;"> Mua hàng </a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+    </section>
+
+</body>
