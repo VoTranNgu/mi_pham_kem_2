@@ -75,7 +75,12 @@
                             </span>
                             <span class="text-muted text-decoration-line-through">@String.Format("{0:N0}", item.Gia + 20000) ₫</span>
                         </p>
-                        <a href="#" class="button-custom" style="text-decoration: none; color: white;"> Mua hàng </a>
+                        <form asp-controller="GioHang" asp-action="Them" method="post">
+                            <input type="hidden" name="maSanPham" value="@item.MaSanPham" />
+                            <input type="hidden" name="soLuong" value="1" />
+                            <button type="submit" class="button-custom" style="text-decoration: none; color: white;">Mua hàng</button>
+                        </form>
+
                     </div>
                 </div>
             </div>

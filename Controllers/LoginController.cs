@@ -51,7 +51,6 @@ namespace mi_pham_kem.Controllers
                     HttpContext.Session.SetInt32("MaKh", khachHang.MaKh);
                 }
 
-                // Kiểm tra quyền và điều hướng tới trang phù hợp
                 if (check.Role == "user")
                 {
                     return RedirectToAction("Index", "Home");
