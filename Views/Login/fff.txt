@@ -1,0 +1,48 @@
+﻿@model mi_pham_kem.Models.SQLServer.User
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="~/css/login.css" />
+    <link rel="stylesheet" href="~/Content/bootstrap-grid.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body style="padding: 100px 0; font-family: 'Playfair Display', serif;">
+    <div class="box-login">
+        @using (Html.BeginForm("DangNhap", "Login", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <h1 style="color: #de5f94;">Đăng nhập</h1>
+
+            <label>
+                Tên đăng nhập:
+                @Html.TextBoxFor(model => model.TenDangNhap, new { @class = "form-control", placeholder = "Tên đăng nhập" })
+                @Html.ValidationMessageFor(model => model.TenDangNhap)
+            </label><br />
+
+            <label>
+                Mật khẩu:
+                @Html.PasswordFor(model => model.MatKhau, new { @class = "form-control", placeholder = "Mật khẩu" })
+                @Html.ValidationMessageFor(model => model.MatKhau)
+            </label><br />
+
+            @if (ViewBag.ErrorInfo != null)
+            {
+                <p class="text-danger">@ViewBag.ErrorInfo</p>
+            }
+
+            <button type="submit" class="reservation-btn">Đăng nhập</button><br />
+
+            <a href="#" style="text-align: center;">Quên mật khẩu?</a><br />
+
+            <p>Bạn chưa có tài khoản? <a href="/Login/DangKy">Đăng ký ngay!</a></p>
+        }
+            </div>
+</body>

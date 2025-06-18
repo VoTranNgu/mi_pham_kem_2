@@ -20,23 +20,38 @@ namespace mi_pham_kem.Controllers
 
         public IActionResult Index()
         {
-            var dsSanPham = _context.SanPhams
+            var sanPhams = _context.SanPhams
             .Include(sp => sp.MaThNavigation)
             .Include(sp => sp.MaDmNavigation)
             .ToList();
+
+            ViewBag.ThuongHieus = _context.ThuongHieus.ToList();
             ViewBag.DanhMucs = _context.DanhMucSps.ToList();
 
-            return View(dsSanPham);
+            return View(sanPhams);
         }
-
+        
         public IActionResult Privacy()
         {
             return View();
         }
         [HttpGet]
-        public IActionResult Product()
+        public IActionResult Product(string _name)
         {
-            return View();
+
+
+            var sanPhams = _context.SanPhams
+                .Include(sp => sp.MaThNavigation)
+                .Include(sp => sp.MaDmNavigation)
+                .ToList();
+
+            ViewBag.ThuongHieus = _context.ThuongHieus.ToList();
+            ViewBag.DanhMucs = _context.DanhMucSps.ToList();
+
+            if (_name == null)
+                return View(sanPhams);
+            else
+                return View(_context.SanPhams.Where(s => s.TenSanPham.Contains(_name)).ToList());
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

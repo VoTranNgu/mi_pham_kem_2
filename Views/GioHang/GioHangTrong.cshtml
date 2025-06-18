@@ -1,0 +1,101 @@
+﻿@model IEnumerable<mi_pham_kem.Models.SQLServer.GioHang>
+@using mi_pham_kem.Models.SQLServer
+
+@{
+    ViewData["Title"] = "GioHang";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+
+    input {
+        height: 50px;
+        border: 2px solid #de5f94;
+        border-radius: 25px;
+        padding: 10px 15px;
+        font-size: 16px;
+        transition: border-color 0.3s ease;
+    }
+
+    .order-summary {
+        border: 2px solid #de5f94;
+        border-radius: 20px;
+        padding: 20px;
+        position: relative;
+        margin-top: 20px;
+    }
+
+    .order-title {
+        position: absolute;
+        top: -20px;
+        left: 20px;
+        background: #fff;
+        padding: 0 10px;
+        font-size: 25px;
+        font-weight: bold;
+        color: #de5f94;
+        font-family: 'Pacifico', cursive;
+    }
+
+</style>
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="~/css/TrangChuStyle.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Edu+NSW+ACT+Cursive:wght@400..700&family=Edu+VIC+WA+NT+Hand+Pre:wght@400..700&family=Pacifico&family=Quicksand:wght@300..700&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <h2 style="margin-top:20px">Giỏ hàng</h2>
+    <br />
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="row justify-content-center mb-4">
+                    Hiện chưa có sản phẩm nào...
+                    <div class="col-md-4">
+                        <a href="/Home/Product" class="button-custom">
+                            Thêm sản phẩm
+                        </a>
+                        
+                    </div>
+                    <div class="col-md-4">
+                        <button class="button-custom" onclick="history.back()">Quay lại</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6" style="padding:10px">
+                <div class="order-summary">
+                    <div class="order-title">
+                        <span>Đơn hàng của bạn</span>
+                    </div>
+
+                    <div class="order-body">
+                        <p>Tạm tính:</p>
+                        <p>Nhập mã giảm giá:</p>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <input />
+                                </div>
+                                <div class="col-md-6">
+                                    <button class="button-custom">Xác nhận</button>
+                                </div>
+                            </div>
+                        </div>
+                        <p style="margin-top:20px">Giảm giá:</p>
+                        <p>Giảm còn:</p>
+                        <hr />
+                        <p style="color: #de5f94; font-weight: bold; font-size: 17px">Tổng giá:</p>
+                        <button class="button-custom">Tiến hành đặt hàng</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</body>

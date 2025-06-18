@@ -1,0 +1,109 @@
+﻿@model IEnumerable<mi_pham_kem.Models.SQLServer.SanPham>
+@using mi_pham_kem.Models.SQLServer
+
+@{
+    var danhMucs = ViewBag.DanhMucs as List<DanhMucSp> ?? new List<DanhMucSp>();
+    var thuongHieus = ViewBag.ThuongHieus as List<ThuongHieu> ?? new List<ThuongHieu>();
+}
+<style>
+    input.form-select,
+    select.form-select {
+        height: 50px;
+        border: 2px solid #de5f94;
+        border-radius: 25px;
+        padding: 10px 15px;
+        font-size: 16px;
+        transition: border-color 0.3s ease;
+    }
+
+        input.form-select:focus,
+        select.form-select:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(222, 95, 148, 0.3);
+            border-color: #de5f94;
+        }
+
+</style>
+<section class="product">
+    <h1>Sản phẩm</h1>
+    <br />
+    <div class="row justify-content-center mb-4">
+        <div class="col-md-4">
+            <select id="thuongHieuFilter" class="form-select">
+                <option value="all">Tất cả thương hiệu</option>
+                @foreach (var th in thuongHieus)
+                {
+                    <option value="@th.MaTh">@th.TenThuongHieu</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-4">
+            <select id="danhMucFilter" class="form-select">
+                <option value="all">Tất cả danh mục</option>
+                @foreach (var dm in danhMucs)
+                {
+                    <option value="@dm.MaDm">@dm.TenDanhMuc</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    <form method="get" asp-action="Product">
+        <div class="row justify-content-center">
+            <div class="col-md-6 d-flex">
+                <input type="text" name="_name" class="form-select me-2" placeholder="Nhập tên sản phẩm..." />
+                <input type="submit" value="Tìm kiếm" class="button-custom" />
+            </div>
+        </div>
+    </form>
+
+    <br />
+    <div class="row" id="productList">
+        @foreach (var item in Model)
+        {
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4 d-flex align-items-stretch">
+                <div class="card w-100 custom-card product-card" data-danhmuc="@item.MaDm" data-thuonghieu="@item.MaTh">
+                    <img src="@item.HinhAnh" class="card-img-top" alt="Ảnh sản phẩm" style="height: 280px; object-fit: cover;" />
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold" style="font-size:27px">@item.TenSanPham</h5>
+                        <p class="card-text text-black">
+                            @item.MaThNavigation.TenThuongHieu - @item.MaDmNavigation.TenDanhMuc
+                        </p>
+                        <p class="card-text">
+                            <span style="color: #de5f94; font-weight: bold; font-size: 24px">
+                                @String.Format("{0:N0}", item.Gia) ₫
+                            </span>
+                            <span class="text-muted text-decoration-line-through">@String.Format("{0:N0}", item.Gia + 20000) ₫</span>
+                        </p>
+                        <a href="#" class="button-custom" style="text-decoration: none; color: white;"> Mua hàng </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</section>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const thuongHieuFilter = document.getElementById("thuongHieuFilter");
+        const danhMucFilter = document.getElementById("danhMucFilter");
+
+        thuongHieuFilter.addEventListener("change", filterProducts);
+        danhMucFilter.addEventListener("change", filterProducts);
+
+        function filterProducts() {
+            const selectedTH = thuongHieuFilter.value;
+            const selectedDM = danhMucFilter.value;
+
+            document.querySelectorAll(".product-card").forEach(card => {
+                const th = card.getAttribute("data-thuonghieu");
+                const dm = card.getAttribute("data-danhmuc");
+
+                const matchTH = (selectedTH === "all" || selectedTH === th);
+                const matchDM = (selectedDM === "all" || selectedDM === dm);
+
+                card.style.display = (matchTH && matchDM) ? "block" : "none";
+            });
+        }
+    });
+</script>

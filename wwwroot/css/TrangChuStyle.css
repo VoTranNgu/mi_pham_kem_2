@@ -4,6 +4,13 @@
     overflow-x: hidden;
     font-family: "Quicksand", sans-serif;
 }
+h2 {
+    font-size: 70px;
+    font-weight: normal;
+    font-family: "Pacifico", cursive;
+    color: #de5f94;
+    text-align: center;
+}
 
 .video-section {
     position: relative;
@@ -121,3 +128,36 @@ section.product {
     }
 
 
+input.form-select,
+select.form-select {
+    height: 50px;
+    border: 2px solid #de5f94;
+    border-radius: 25px;
+    padding: 10px 15px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+    input.form-select:focus,
+    select.form-select:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(222, 95, 148, 0.3);
+        border-color: #de5f94;
+    }
+
+
+section.product {
+    padding: 30px;
+}
+
+    section.product h1 {
+        font-size: 70px;
+        font-weight: normal;
+        font-family: "Pacifico", cursive;
+        color: #de5f94;
+        text-align: center;
+    }
+
+html {
+    scroll-behavior: smooth;
+}

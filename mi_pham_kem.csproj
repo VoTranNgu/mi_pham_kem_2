@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.3.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.13" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.13">
       <PrivateAssets>all</PrivateAssets>
@@ -22,6 +23,36 @@
 
   <ItemGroup>
     <Folder Include="DataSet\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\lib\scripts\bootstrap.bundle.js" />
+    <None Include="wwwroot\lib\scripts\bootstrap.bundle.js.map" />
+    <None Include="wwwroot\lib\scripts\bootstrap.bundle.min.js" />
+    <None Include="wwwroot\lib\scripts\bootstrap.bundle.min.js.map" />
+    <None Include="wwwroot\lib\scripts\bootstrap.esm.js" />
+    <None Include="wwwroot\lib\scripts\bootstrap.esm.js.map" />
+    <None Include="wwwroot\lib\scripts\bootstrap.esm.min.js" />
+    <None Include="wwwroot\lib\scripts\bootstrap.esm.min.js.map" />
+    <None Include="wwwroot\lib\scripts\bootstrap.js" />
+    <None Include="wwwroot\lib\scripts\bootstrap.js.map" />
+    <None Include="wwwroot\lib\scripts\bootstrap.min.js" />
+    <None Include="wwwroot\lib\scripts\bootstrap.min.js.map" />
+    <None Include="wwwroot\lib\scripts\index.js" />
+    <None Include="wwwroot\lib\scripts\jquery-3.7.1.intellisense.js" />
+    <None Include="wwwroot\lib\scripts\jquery-3.7.1.js" />
+    <None Include="wwwroot\lib\scripts\jquery-3.7.1.min.js" />
+    <None Include="wwwroot\lib\scripts\jquery-3.7.1.min.map" />
+    <None Include="wwwroot\lib\scripts\jquery-3.7.1.slim.js" />
+    <None Include="wwwroot\lib\scripts\jquery-3.7.1.slim.min.js" />
+    <None Include="wwwroot\lib\scripts\jquery-3.7.1.slim.min.map" />
+    <None Include="wwwroot\lib\scripts\jquery.validate-vsdoc.js" />
+    <None Include="wwwroot\lib\scripts\jquery.validate.js" />
+    <None Include="wwwroot\lib\scripts\jquery.validate.min.js" />
+    <None Include="wwwroot\lib\scripts\jquery.validate.unobtrusive.js" />
+    <None Include="wwwroot\lib\scripts\jquery.validate.unobtrusive.min.js" />
+    <None Include="wwwroot\lib\scripts\modernizr-2.8.3.js" />
+    <None Include="wwwroot\lib\scripts\script.js" />
   </ItemGroup>
 
 </Project>
