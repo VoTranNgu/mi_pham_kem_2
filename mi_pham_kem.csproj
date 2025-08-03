@@ -19,6 +19,9 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
+    <PackageReference Include="payOS.Net5" Version="1.0.7" />
+    <PackageReference Include="X.PagedList" Version="10.5.7" />
+    <PackageReference Include="X.PagedList.Mvc.Core" Version="10.5.7" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,6 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\LayoutAdmin\.DS_Store" />
     <None Include="wwwroot\lib\scripts\bootstrap.bundle.js" />
     <None Include="wwwroot\lib\scripts\bootstrap.bundle.js.map" />
     <None Include="wwwroot\lib\scripts\bootstrap.bundle.min.js" />

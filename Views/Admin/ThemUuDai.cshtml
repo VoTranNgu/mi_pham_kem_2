@@ -1,0 +1,39 @@
+﻿@model mi_pham_kem.Models.SQLServer.UuDai
+
+@{
+    var actionName = (string)ViewContext.RouteData.Values["action"];
+    var isThemUuDai = actionName == "ThemUuDai";
+    ViewData["Title"] = isThemUuDai ? "Thêm Ưu Đãi" : "Sửa Ưu Đãi";
+    Layout = "~/Views/Shared/_LayoutAd.cshtml";
+}
+
+<h2 class="mb-4">@ViewData["Title"]</h2>
+
+<form asp-action="@actionName" method="post">
+    <div class="mb-3">
+        <label class="form-label">Nội dung mã</label>
+        <input asp-for="NoiDungMa" class="form-control" />
+        <span asp-validation-for="NoiDungMa" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Giảm giá (VNĐ)</label>
+        <input asp-for="GiaGiam" class="form-control" />
+        <span asp-validation-for="GiaGiam" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Giá tối thiểu áp dụng (nếu có)</label>
+        <input asp-for="GiaToiThieu" class="form-control" />
+        <span asp-validation-for="GiaToiThieu" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Thời hạn (nếu có)</label>
+        <input asp-for="ThoiHan" class="form-control" type="date" />
+        <span asp-validation-for="ThoiHan" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Lưu</button>
+    <a asp-action="UuDai" class="btn btn-secondary">Quay lại</a>
+</form>

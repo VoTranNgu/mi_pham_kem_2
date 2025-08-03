@@ -1,5 +1,72 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model List<mi_pham_kem.Models.SQLServer.User>
+
 @{
+    ViewData["Title"] = "Quản lý người dùng";
+    Layout = "~/Views/Shared/_LayoutAD.cshtml";
+}
+
+<div class="container-fluid px-4 mt-4">
+    <div class="card shadow border-0 rounded-4">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center py-3 rounded-top-4">
+            <h4 class="mb-0"><i class="bi bi-people-fill me-2"></i>Danh sách người dùng</h4>
+        </div>
+
+        <form asp-action="XoaUser" method="post">
+            <div class="card-body bg-white rounded-bottom-4">
+                <table class="table table-bordered table-hover align-middle text-center">
+                    <thead class="table-light">
+                        <tr class="fw-semibold">
+                            <th>Chọn</th>
+                            <th>Tên đăng nhập</th>
+                            <th>Họ tên</th>
+                            <th>Email</th>
+                            <th>SĐT</th>
+                            <th>Địa chỉ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var user in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <input type="radio" name="id" value="@user.MaUser" />
+                                </td>
+                                <td>@user.TenDangNhap</td>
+                                <td>@user.HoTen</td>
+                                <td>@user.Email</td>
+                                <td>@user.Sdt</td>
+                                <td>@user.DiaChi</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+                <div class="d-flex justify-content-end gap-2 pt-3">
+                    @* <a href="#" id="editButton" class="btn btn-warning rounded-pill px-4">
+                        <i class="bi bi-pencil-square me-1"></i> Sửa
+                    </a> *@
+                    <button type="submit" class="btn btn-danger rounded-pill px-4"
+                            onclick="return confirm('Bạn có chắc muốn xóa người dùng này?');">
+                        <i class="bi bi-trash3-fill me-1"></i> Xóa
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const radios = document.querySelectorAll('input[type="radio"][name="id"]');
+            const editBtn = document.getElementById('editButton');
+
+            radios.forEach(radio => {
+                radio.addEventListener('change', function () {
+                    const selectedId = this.value;
+                    editBtn.href = `/Admin/SuaUser/${selectedId}`;
+                });
+            });
+        });
+    </script>
 }

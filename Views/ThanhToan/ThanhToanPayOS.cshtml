@@ -1,0 +1,19 @@
+﻿@{
+    ViewBag.Title = "Thanh toán với PayOS";
+}
+
+<h2>Đang chuyển hướng đến cổng thanh toán...</h2>
+
+@if (ViewBag.CheckoutUrl != null)
+{
+    <script>
+        window.location.href = "@ViewBag.CheckoutUrl";
+    </script>
+}
+else
+{
+    <p style="color:red;">@ViewBag.Error</p>
+    <pre>@ViewBag.DebugResult</pre>
+
+    <!-- Dành cho debug -->
+}

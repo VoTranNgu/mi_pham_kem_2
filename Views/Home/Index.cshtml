@@ -119,7 +119,17 @@
 
     </section>
     <section class="product">
-        @Html.Partial("_SanPhamPartial", Model)
+        <br />
+        <h1>Sản phẩm bán chạy</h1>
+        <br />
+        @{
+            ViewData["DanhGias"] = ViewBag.DanhGias;
+            ViewData["DanhMucs"] = ViewBag.DanhMucs;
+            ViewData["ThuongHieus"] = ViewBag.ThuongHieus;
+        }
+
+        @Html.Partial("_SanPhamPartial", Model, ViewData)
+
     </section>
     <section class="about" id="about">
         <div class="text" style=" text-align: justify ">

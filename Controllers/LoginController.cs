@@ -61,7 +61,7 @@ namespace mi_pham_kem.Controllers
                 }
                 else if (check.Role == "AD")
                 {
-                    return RedirectToAction("QLAdmin", "QuanLy");
+                    return RedirectToAction("Index", "Admin");
                 }
                 else
                 {

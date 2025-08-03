@@ -1,0 +1,303 @@
+﻿@model mi_pham_kem.Models.SQLServer.SanPham
+
+@{
+    ViewData["Title"] = "ChiTiet";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int diemLamTron = (int)Math.Round((double)ViewBag.DiemTrungBinh);
+    var danhGias = ViewBag.DanhGias as List<mi_pham_kem.Models.SQLServer.DanhGium>;
+
+}
+<script>
+    function changeImage(thumbnail) {
+        var mainImage = document.getElementById("mainImage");
+        mainImage.src = thumbnail.src;
+    }
+</script>
+<style>
+    #star-rating {
+        display: inline-flex;
+        flex-direction: row-reverse;
+        font-size: 30px;
+    }
+
+        #star-rating input[type="radio"] {
+            display: none;
+        }
+
+    .star {
+        font-size: 40px;
+        color: #ccc;
+        cursor: pointer;
+        transition: color 0.3s;
+    }
+
+        .star.selected {
+            color: gold;
+        }
+
+
+
+
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+
+    .button-add {
+        background-color: white;
+        color: #ff69b4;
+        padding: 10px 24px;
+        border: 3px;
+        border-color: #ff69b4;
+        border-radius: 30px;
+        font-size: 20px;
+        font-weight: 500;
+        font-weight: bold;
+        border: none;
+        display: inline-block;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+
+        .button-add:hover {
+            background-color: #ff69b4;
+            color: white;
+            transform: scale(1.05);
+        }
+
+    .list-image {
+        margin-top: 10px;
+    }
+
+        .list-image img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            margin-right: 10px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: border 0.2s;
+        }
+
+            .list-image img:hover {
+                border: 2px solid #ff69b4;
+            }
+
+    .order-summary {
+        border: 2px solid #de5f94;
+        border-radius: 20px;
+        padding: 20px;
+        position: relative;
+        margin-top: 20px;
+    }
+
+    .order-title {
+        position: absolute;
+        top: -20px;
+        left: 20px;
+        background: #fff;
+        padding: 0 10px;
+        font-size: 25px;
+        font-weight: bold;
+        color: #de5f94;
+        font-family: 'Pacifico', cursive;
+    }
+
+    .rateinput {
+        padding:20px;
+        height: 200px;
+        width: 90%;
+        border: 2px solid #de5f94;
+        border-radius: 25px;
+        padding: 10px 15px;
+        font-size: 16px;
+        transition: border-color 0.3s ease;
+    }
+</style>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="~/css/TrangChuStyle.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Edu+NSW+ACT+Cursive:wght@400..700&family=Edu+VIC+WA+NT+Hand+Pre:wght@400..700&family=Pacifico&family=Quicksand:wght@300..700&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    <br />
+    <h2 style="text-align:center">Chi tiết sản phẩm</h2>
+    <br/>
+
+    <section class="product-detail container mt-5">
+    <div class="row">
+        <div class="col-md-6">
+                <img id="mainImage" src="@Model.HinhAnh" class="img-fluid rounded" alt="@Model.TenSanPham" style="height:400px; object-fit:cover;" />
+                <br />
+               <div class="list-image">
+                    <img src="@Model.HinhAnh" class="img-thumbnail thumbnail" onclick="changeImage(this)" alt="hinhgoc"/>
+                    <img src="@Model.Hinh2" class="img-thumbnail thumbnail" onclick="changeImage(this)" alt="hinh1"/>
+                    <img src="@Model.Hinh3" class="img-thumbnail thumbnail" onclick="changeImage(this)" alt="hinh2"/>
+               </div>
+        </div>
+        <div class="col-md-6">
+            <h1 class="fw-bold">@Model.TenSanPham</h1>
+            <div class="mb-2">
+    @for (int i = 1; i <= 5; i++)
+    {
+        if (i <= diemLamTron)
+        {
+            <i class="fa fa-star text-warning"></i>
+        }
+        else
+        {
+            <i class="fa fa-star text-secondary"></i>
+        }
+    }
+    <span class="ms-2">
+        (@ViewBag.DiemTrungBinh.ToString("0.0") / 5 từ @ViewBag.SoLuongDanhGia đánh giá)
+    </span>
+</div>
+
+            <p>Thương hiệu: <strong>@Model.MaThNavigation.TenThuongHieu</strong></p>
+            <p>Danh mục: <strong>@Model.MaDmNavigation.TenDanhMuc</strong></p>
+            <p>Mô tả sản phẩm: <strong>@Model.MoTa</strong></p>
+                <p>
+                    <span style="color:#de5f94; font-weight:bold; font-size:30px">@String.Format("{0:N0}", Model.Gia) ₫</span>
+                    <span class="text-muted text-decoration-line-through" style="font-weight:bold; margin-left: 10px;">
+                        @String.Format("{0:N0}", Model.Gia + 20000) ₫
+                    </span>
+                </p>
+                <form asp-controller="GioHang" asp-action="Them" method="post">
+                    <input type="hidden" name="maSanPham" value="@Model.MaSanPham" />
+                    <div class="d-flex align-items-center mb-3">
+                        <label for="soLuong" class="me-2">Số lượng:</label>
+                        <button type="button" class="button-add" style="color:#de5f94; background-color: white; border-color: #de5f94; border: 3px"  onclick="thayDoiSoLuong(-1)">-</button>
+                        <input type="number" id="soLuong" name="soLuong" value="1" min="1" class="form-control mx-2" style="width: 70px;" />
+                        <button type="button" class="button-add" style="color:#de5f94; background-color: white; border-color: #de5f94; border: 3px" onclick="thayDoiSoLuong(1)">+</button>
+                    </div>
+
+                    <button type="submit" class="button-custom">Thêm vào giỏ hàng</button>
+                </form>
+
+        </div>
+    </div>
+    </section>
+    <script>
+        function thayDoiSoLuong(delta) {
+            const input = document.getElementById("soLuong");
+            let current = parseInt(input.value);
+
+            if (isNaN(current)) current = 1;
+
+            current += delta;
+
+            if (current < 1) current = 1;
+
+            input.value = current;
+        }
+    </script>
+    <br />
+    <hr />
+    <section class="rate" style="margin-top:40px">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="order-summary">
+                        <div class="order-title">
+                            <span>Gửi đánh giá của bạn</span>
+                        </div>
+
+                        <div class="order-body">
+                            <form asp-controller="SanPham" asp-action="ThemDanhGia" method="post">
+                                <input type="hidden" name="MaSanPham" value="@Model.MaSanPham" />
+
+                                <p style="font-weight: bold">Đánh giá:</p>
+                                <div id="star-rating">
+                                    @for (int i = 5; i >= 1; i--)
+                                    {
+                                        <input type="radio" name="DiemDanhGia" value="@i" id="star@i" />
+                                        <label for="star@i" class="fa fa-star star" data-value="@i" style="margin-left: 5px"></label>
+                                    }
+                                </div>
+                                <p id="rating-result" style="margin-top: 10px; color: #555;">Chưa chọn đánh giá</p>
+
+                                <script>
+                                    document.addEventListener("DOMContentLoaded", function () {
+                                        const stars = document.querySelectorAll("#star-rating .star");
+                                        const result = document.getElementById("rating-result");
+
+                                        stars.forEach(star => {
+                                            star.addEventListener("click", function () {
+                                                const rating = parseInt(this.getAttribute("data-value"));
+
+                                                stars.forEach(s => s.classList.remove("selected"));
+
+                                                stars.forEach(s => {
+                                                    const starValue = parseInt(s.getAttribute("data-value"));
+                                                    if (starValue <= rating) {
+                                                        s.classList.add("selected");
+                                                    }
+                                                });
+                                                result.textContent = `Bạn đã đánh giá: ${rating}/5 sao`;
+                                            });
+                                        });
+                                    });
+                                </script>
+
+
+
+                                <br />
+                                <p style="font-weight: bold">Nội dung đánh giá:</p>
+                                <textarea name="BinhLuan" class="rateinput form-control" rows="3" placeholder="Nhập nhận xét của bạn..." required></textarea>
+
+                                <button type="submit" class="button-custom" style="background-color: #de5f94; margin-top: 30px">Gửi đánh giá</button>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div class="col-md-6">
+                    <span style="color: #de5f94; font-weight: bold; font-size: 40px">Đánh giá sản phẩm</span>
+                    @if (danhGias != null && danhGias.Count > 0)
+                    {
+                        foreach (var dg in danhGias)
+                        {
+                            <div class="mb-3 p-2 border rounded bg-light">
+                                <strong>@dg.MaKhNavigation.HoTen</strong>
+                                <div>
+                                    @for (int i = 1; i <= 5; i++)
+                                    {
+                                        if (i <= dg.DiemDanhGia)
+                                        {
+                                            <i class="fa fa-star text-warning"></i>
+                                        }
+                                        else
+                                        {
+                                            <i class="fa fa-star text-secondary"></i>
+                                        }
+                                    }
+                                    <small class="text-muted"> - @dg.NgayTao.ToString("dd/MM/yyyy")</small>
+                                </div>
+                                <div>@dg.BinhLuan</div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <p>Chưa có đánh giá nào.</p>
+                    }
+                </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+

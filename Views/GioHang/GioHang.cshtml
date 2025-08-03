@@ -6,7 +6,27 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <style>
+    .button-add {
+        background-color: white;
+        color: #ff69b4;
+        padding: 10px 24px;
+        border: 3px;
+        border-color: #ff69b4;
+        border-radius: 30px;
+        font-size: 16px;
+        font-weight: 500;
+        border: none;
+        display: inline-block;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
 
+        .button-add:hover {
+            background-color: #ff69b4;
+            color: white;
+            transform: scale(1.05);
+        }
     input{
         height: 50px;
         border: 2px solid #de5f94;
@@ -79,7 +99,7 @@
                                         <form asp-action="CapNhatSoLuong" method="post" style="display: inline;">
                                             <input type="hidden" name="maSanPham" value="@item.MaSanPham" />
                                             <input type="hidden" name="hanhDong" value="Giam" />
-                                            <button type="submit" class="button-custom">-</button>
+                                            <button type="submit" class="button-add">-</button>
                                         </form>
 
                                         <span style="min-width: 30px; text-align: center;">@item.SoLuong</span>
@@ -87,7 +107,7 @@
                                         <form asp-action="CapNhatSoLuong" method="post" style="display: inline;">
                                             <input type="hidden" name="maSanPham" value="@item.MaSanPham" />
                                             <input type="hidden" name="hanhDong" value="Tang" />
-                                            <button type="submit" class="button-custom">+</button>
+                                            <button type="submit" class="button-add">+</button>
                                         </form>
                                     </div>
                                 </td>
@@ -105,7 +125,10 @@
 
                 <div class="row justify-content-center mb-4">
                     <div class="col-md-4">
-                        <button class="button-custom">Thêm sản phẩm</button>
+                        <a href="/Home/Product" class="button-custom">
+                            Thêm sản phẩm
+                        </a>
+
                     </div>
                     <div class="col-md-4">
                         <form asp-action="XoaTatCa" method="post" style="display:inline;">
@@ -126,22 +149,40 @@
 
                     <div class="order-body">
                         <p>Tạm tính: @string.Format("{0:N0} đ", ViewBag.TongTien)</p>
-                        <p>Nhập mã giảm giá:</p>
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <input />
-                                </div>
-                                <div class="col-md-6">
-                                    <button class="button-custom">Xác nhận</button>
-                                </div>
+                        @if (ViewBag.GiaGiam != null && ViewBag.GiaGiam > 0)
+                        {
+                            <p style="color: green">Mã áp dụng: @ViewBag.MaUuDai</p>
+
+                        }
+
+                        else
+                        {
+                            <p>Nhập mã giảm giá:</p>
+                            <div class="container">
+                                <form asp-action="ApDungUuDai" method="post">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <input name="maUuDai" placeholder="Nhập mã giảm giá" />
+                                        </div>
+                                        <div class="col-md-6">
+                                            <button type="submit" class="button-custom">Xác nhận</button>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
-                        </div>
-                        <p style="margin-top:20px">Giảm giá:</p>
-                        <p>Giảm còn:</p>
+                        }
+                    @if (TempData["LoiUuDai"] != null)
+                    {
+                        <div class="alert alert-danger mt-2">@TempData["LoiUuDai"]</div>
+                    }
+
+                        <p style="margin-top:10px;">Giảm giá: <strong>@String.Format("{0:N0} đ", ViewBag.GiaGiam)</strong></p>
+                        <p>Giảm còn: <strong>@string.Format("{0:N0} đ", (decimal)ViewBag.TongTien - (decimal)(ViewBag.GiaGiam ?? 0))</strong></p>
                         <hr />
-                        <p style="color: #de5f94; font-weight: bold; font-size: 17px">Tổng giá: @string.Format("{0:N0} đ", ViewBag.TongTien)</p>
-                        <button class="button-custom">Tiến hành đặt hàng</button>
+                        <p style="color: #de5f94; font-weight: bold; font-size: 17px">
+                            Tổng giá: @string.Format("{0:N0} đ", (decimal)ViewBag.TongTien - (decimal)(ViewBag.GiaGiam ?? 0))
+                        </p>
+                        <a href="~/ThanhToan/XacNhanDon" class="button-custom" style="text-decoration: none;">Tiến hành đặt hàng</a>
                     </div>
                 </div>
 

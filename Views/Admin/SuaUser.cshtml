@@ -1,0 +1,101 @@
+﻿@model mi_pham_kem.Models.SQLServer.User
+@{
+    Layout = null;
+    ViewData["Title"] = "Sửa tài khoản";
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"]</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+    <style>
+        body {
+            background: linear-gradient(135deg, #e3f2fd, #fce4ec);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+        }
+
+        .form-container {
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .card {
+            border: none;
+            border-radius: 1rem;
+            overflow: hidden;
+        }
+
+        .card-header {
+            background: linear-gradient(to right, #007bff, #00c6ff);
+        }
+
+        .form-control, .form-select {
+            transition: all 0.3s ease;
+        }
+
+            .form-control:focus, .form-select:focus {
+                box-shadow: 0 0 10px rgba(0, 123, 255, 0.4);
+                border-color: #007bff;
+            }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <div class="card shadow-lg">
+            <div class="card-header text-white text-center py-3">
+                <h2 class="mb-0">
+                    <i class="bi bi-person-lines-fill me-2"></i>Sửa tài khoản
+                </h2>
+            </div>
+            <div class="card-body bg-white p-4">
+                <form asp-action="SuaUser" method="post">
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(m => m.MaUser)
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold text-dark">
+                            <i class="bi bi-person-fill me-2 text-primary"></i>Tên đăng nhập
+                        </label>
+                        @Html.TextBoxFor(m => m.TenDangNhap, new { @class = "form-control rounded-3 shadow-sm" })
+                        @Html.ValidationMessageFor(m => m.TenDangNhap, "", new { @class = "text-danger small fst-italic" })
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold text-dark">
+                            <i class="bi bi-lock-fill me-2 text-danger"></i>Mật khẩu
+                        </label>
+                        @Html.PasswordFor(m => m.MatKhau, new { @class = "form-control rounded-3 shadow-sm" })
+                        @Html.ValidationMessageFor(m => m.MatKhau, "", new { @class = "text-danger small fst-italic" })
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold text-dark">
+                            <i class="bi bi-shield-lock-fill me-2 text-success"></i>Vai trò
+                        </label>
+                        @Html.DropDownListFor(m => m.Role, new SelectList(new[] {
+                        new SelectListItem { Value = "KhachHang", Text = "Khách hàng" },
+                        new SelectListItem { Value = "NhanVien", Text = "Nhân viên" }
+                        }, "Value", "Text", Model.Role), "Chọn vai trò", new { @class = "form-select rounded-3 shadow-sm" })
+                        @Html.ValidationMessageFor(m => m.Role, "", new { @class = "text-danger small fst-italic" })
+                    </div>
+
+                    <div class="d-flex justify-content-end gap-2 mt-4">
+                        <button type="submit" class="btn btn-success px-4 rounded-pill">
+                            <i class="bi bi-save2-fill me-1"></i>Lưu thay đổi
+                        </button>
+                        <a asp-action="Index" class="btn btn-secondary px-4 rounded-pill">
+                            <i class="bi bi-arrow-left-circle me-1"></i>Quay lại
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -25,6 +25,9 @@ namespace mi_pham_kem.Controllers
             .Include(sp => sp.MaDmNavigation)
             .ToList();
 
+            var danhGias = _context.DanhGia.ToList();
+
+            ViewBag.DanhGias = danhGias;
             ViewBag.ThuongHieus = _context.ThuongHieus.ToList();
             ViewBag.DanhMucs = _context.DanhMucSps.ToList();
 
@@ -38,21 +41,25 @@ namespace mi_pham_kem.Controllers
         [HttpGet]
         public IActionResult Product(string _name)
         {
-
-
-            var sanPhams = _context.SanPhams
+            var query = _context.SanPhams
                 .Include(sp => sp.MaThNavigation)
                 .Include(sp => sp.MaDmNavigation)
-                .ToList();
+                .AsQueryable();
 
+            if (!string.IsNullOrEmpty(_name))
+            {
+                query = query.Where(sp => sp.TenSanPham.Contains(_name));
+            }
+
+            var sanPhams = query.ToList();
+
+            ViewBag.DanhGias = _context.DanhGia.ToList();
             ViewBag.ThuongHieus = _context.ThuongHieus.ToList();
             ViewBag.DanhMucs = _context.DanhMucSps.ToList();
 
-            if (_name == null)
-                return View(sanPhams);
-            else
-                return View(_context.SanPhams.Where(s => s.TenSanPham.Contains(_name)).ToList());
+            return View(sanPhams);
         }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

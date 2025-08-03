@@ -18,7 +18,6 @@ body {
     width: 100%;
 }
 
-/* HEADER */
 header {
     width: 100%;
     background: #fff;
@@ -79,8 +78,6 @@ header {
             transform: scale(1.05);
         }
 
-
-/* SLIDESHOW */
 .slide-show {
     width: 100vw;
     height: 100vh;
@@ -107,7 +104,7 @@ header {
     background: #de5f94;
     border: none;
     padding: 20px 30px;
-    border-radius: 50px; /* Bo tròn 2 đầu */
+    border-radius: 50px;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -131,7 +128,6 @@ header {
 }
 
 
-/* ABOUT SECTION */
 section.about {
     display: flex;
     align-items: center;

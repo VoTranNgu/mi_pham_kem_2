@@ -7,7 +7,8 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<MiPhamContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddControllersWithViews();
-// Add services to the container.
+builder.Services.AddSingleton<PayOSService>();
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddSession(options =>
 {

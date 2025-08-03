@@ -1,0 +1,60 @@
+﻿@model mi_pham_kem.Models.SQLServer.DonHang
+@{
+    ViewData["Title"] = "Chỉnh sửa đơn hàng";
+    Layout = "~/Views/Shared/_LayoutAD.cshtml";
+}
+
+<div class="container mt-4">
+    <div class="card shadow border-0 rounded-4">
+        <div class="card-header bg-primary text-white py-3 rounded-top-4">
+            <h4 class="mb-0"><i class="bi bi-pencil-square me-2"></i>Chỉnh sửa đơn hàng</h4>
+        </div>
+        <div class="card-body bg-white rounded-bottom-4">
+
+            <form method="post" asp-action="ChinhSuaQuanLyDH">
+                <input type="hidden" asp-for="MaDh" />
+
+                <div class="mb-3">
+                    <label class="form-label">Khách hàng:</label>
+                    <input type="text" class="form-control" value="@Model.MaKhNavigation?.HoTen" disabled />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Ngày đặt:</label>
+                    <input type="text" class="form-control" value="@Model.NgayDat.ToString("dd/MM/yyyy")" disabled />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Tổng tiền:</label>
+                    <input type="text" class="form-control" value="@Model.TongTien.ToString("N0") đ" disabled />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Trạng thái:</label>
+                    <select asp-for="TrangThai" class="form-select">
+                        <option value="Đã xác nhận">Đã xác nhận</option>
+                        <option value="Đang vận chuyển">Đang vận chuyển</option>
+                        <option value="Đã giao hàng">Đã giao hàng</option>
+                        <option value="Đã hoàn tất">Đã hoàn tất</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-success rounded-pill">
+                    <i class="bi bi-save me-1"></i> Lưu thay đổi
+                </button>
+                <a asp-action="QuanLyAD" class="btn btn-secondary rounded-pill ms-2">Quay lại</a>
+            </form>
+
+            <hr />
+
+            <h5>Chi tiết đơn hàng:</h5>
+            <ul>
+                @foreach (var ct in Model.ChiTietDonHangs)
+                {
+                    <li>@ct.MaSanPhamNavigation?.TenSanPham - SL: @ct.SoLuong, Giá: @ct.DonGia.ToString("N0") đ</li>
+                }
+            </ul>
+
+        </div>
+    </div>
+</div>

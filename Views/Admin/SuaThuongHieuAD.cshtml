@@ -1,0 +1,76 @@
+﻿@model mi_pham_kem.Models.SQLServer.ThuongHieu
+
+@{
+    ViewData["Title"] = "Sửa thương hiệu";
+    Layout = null;
+}
+
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"]</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+    <style>
+        body {
+            background: linear-gradient(135deg, #e3f2fd, #fce4ec);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+        }
+
+        .form-container {
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .card {
+            border: none;
+            border-radius: 1rem;
+            overflow: hidden;
+        }
+
+        .card-header {
+            background: linear-gradient(to right, #007bff, #00c6ff);
+        }
+
+        .form-control, .form-select {
+            transition: all 0.3s ease;
+        }
+
+            .form-control:focus, .form-select:focus {
+                box-shadow: 0 0 10px rgba(0, 123, 255, 0.4);
+                border-color: #007bff;
+            }
+    </style>
+</head>
+
+<div class="container-fluid mt-4 px-4">
+    <h2 class="text-primary fw-bold mb-4">Sửa thương hiệu</h2>
+
+    <div class="card shadow-sm p-4">
+        <form asp-action="SuaThuongHieuAD">
+            <input type="hidden" asp-for="MaTh" />
+            <div class="mb-3">
+                <label asp-for="TenThuongHieu" class="form-label fw-bold">Tên thương hiệu</label>
+                <input asp-for="TenThuongHieu" class="form-control" />
+                <span asp-validation-for="TenThuongHieu" class="text-danger"></span>
+            </div>
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-save"></i> Lưu thay đổi
+                </button>
+                <a asp-action="ThuongHieuAD" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left-circle"></i> Trở về
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

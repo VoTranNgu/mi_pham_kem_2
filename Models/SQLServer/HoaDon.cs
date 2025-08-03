@@ -12,7 +12,7 @@ public partial class HoaDon
     public decimal TongTien { get; set; }
 
     public int MaKh { get; set; }
-
+    
     public virtual ICollection<DonHang> DonHangs { get; set; } = new List<DonHang>();
 
     public virtual KhachHang MaKhNavigation { get; set; } = null!;

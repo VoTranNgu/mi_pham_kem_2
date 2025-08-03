@@ -1,0 +1,119 @@
+﻿@model mi_pham_kem.Models.SQLServer.SanPham
+
+@{
+    Layout =null ;
+    <head>
+        <link href="~/css/LayoutSua.css" rel="stylesheet" />
+    </head>
+    ViewData["Title"] = "Sửa sản phẩm";
+}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+<style>
+    body {
+        background: linear-gradient(135deg, #e3f2fd, #fce4ec);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 30px;
+    }
+
+    .form-container {
+        max-width: 600px;
+        width: 100%;
+    }
+
+    .card {
+        border: none;
+        border-radius: 1rem;
+        overflow: hidden;
+    }
+
+    .card-header {
+        background: linear-gradient(to right, #007bff, #00c6ff);
+    }
+
+    .form-control, .form-select {
+        transition: all 0.3s ease;
+    }
+
+        .form-control:focus, .form-select:focus {
+            box-shadow: 0 0 10px rgba(0, 123, 255, 0.4);
+            border-color: #007bff;
+        }
+
+</style>
+<div class="container edit-container">
+    <div class="card shadow-lg">
+        <div class="card-header text-center text-dark py-3">
+            ✏️ Sửa sản phẩm
+        </div>
+
+        <div class="card-body px-5 py-4 bg-white">
+            <form asp-action="SuaSPAD" method="post">
+                <input type="hidden" asp-for="MaSanPham" />
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label asp-for="TenSanPham" class="form-label">Tên sản phẩm</label>
+                        <input asp-for="TenSanPham" class="form-control shadow-sm" />
+                        <span asp-validation-for="TenSanPham" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-3">
+                        <label asp-for="Gia" class="form-label">Giá (VNĐ)</label>
+                        <input asp-for="Gia" class="form-control shadow-sm" type="number" step="1000" />
+                        <span asp-validation-for="Gia" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-3">
+                        <label asp-for="SoLuong" class="form-label">Số lượng</label>
+                        <input asp-for="SoLuong" class="form-control shadow-sm" type="number" />
+                        <span asp-validation-for="SoLuong" class="text-danger small"></span>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="MoTa" class="form-label">Mô tả</label>
+                    <textarea asp-for="MoTa" class="form-control shadow-sm" rows="3"></textarea>
+                    <span asp-validation-for="MoTa" class="text-danger small"></span>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label asp-for="MaDm" class="form-label">Danh mục</label>
+                        <select asp-for="MaDm" asp-items="ViewBag.DanhMucs" class="form-select shadow-sm"></select>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="MaTh" class="form-label">Thương hiệu</label>
+                        <select asp-for="MaTh" asp-items="ViewBag.ThuongHieus" class="form-select shadow-sm"></select>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="HinhAnh" class="form-label">Hình ảnh (URL)</label>
+                    <input asp-for="HinhAnh" class="form-control shadow-sm" />
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Hinh2" class="form-label">Hình ảnh (URL)</label>
+                    <input asp-for="Hinh2" class="form-control shadow-sm" />
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Hinh3" class="form-label">Hình ảnh (URL)</label>
+                    <input asp-for="Hinh3" class="form-control shadow-sm" />
+                </div>
+
+                <div class="text-end">
+                    <button type="submit" class="btn btn-primary px-4 rounded-pill">
+                        💾 Lưu thay đổi
+                    </button>
+                    <a asp-action="SanPhamAD" class="btn btn-secondary px-4 ms-2 rounded-pill">
+                        ↩ Quay lại
+                    </a>
+                </div>
+
+                @Html.ValidationSummary(false, "", new { @class = "text-danger mt-3" })
+            </form>
+        </div>
+    </div>
+</div>
+
+

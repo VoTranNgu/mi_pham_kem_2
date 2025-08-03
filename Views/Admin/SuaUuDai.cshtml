@@ -1,0 +1,57 @@
+﻿@model mi_pham_kem.Models.SQLServer.UuDai
+
+@{
+    ViewData["Title"] = "Sửa mã ưu đãi";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"]</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body class="bg-light d-flex justify-content-center align-items-center vh-100">
+    <div class="card shadow p-4" style="width: 500px;">
+        <h3 class="card-title text-center mb-3">✏️ Sửa mã ưu đãi</h3>
+        <form asp-action="SuaUuDai" method="post">
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.MaUd)
+
+            <div class="mb-3">
+                <label asp-for="NoiDungMa" class="form-label">Nội dung mã</label>
+                <input asp-for="NoiDungMa" class="form-control" />
+                <span asp-validation-for="NoiDungMa" class="text-danger small"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="GiaGiam" class="form-label">Giá giảm</label>
+                <input asp-for="GiaGiam" class="form-control" type="number" step="1000" />
+                <span asp-validation-for="GiaGiam" class="text-danger small"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="GiaToiThieu" class="form-label">Giá tối thiểu áp dụng</label>
+                <input asp-for="GiaToiThieu" class="form-control" type="number" step="1000" />
+                <span asp-validation-for="GiaToiThieu" class="text-danger small"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="ThoiHan" class="form-label">Thời hạn</label>
+                <input asp-for="ThoiHan" class="form-control" type="date" />
+                <span asp-validation-for="ThoiHan" class="text-danger small"></span>
+            </div>
+
+            <div class="d-flex justify-content-end gap-2">
+                <button type="submit" class="btn btn-primary rounded-pill px-4">💾 Lưu</button>
+                <a asp-action="Index" class="btn btn-secondary rounded-pill px-4">↩ Quay lại</a>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation-unobtrusive@3.2.12/dist/jquery.validate.unobtrusive.min.js"></script>
+</body>
+</html>

@@ -15,13 +15,13 @@ public partial class DonHang
 
     public int MaKh { get; set; }
 
-    public int MaHd { get; set; }
+    public int? MaHd { get; set; }
 
     public int? MaUd { get; set; }
 
     public virtual ICollection<ChiTietDonHang> ChiTietDonHangs { get; set; } = new List<ChiTietDonHang>();
 
-    public virtual HoaDon MaHdNavigation { get; set; } = null!;
+    public virtual HoaDon? MaHdNavigation { get; set; } = null!;
 
     public virtual KhachHang MaKhNavigation { get; set; } = null!;
 

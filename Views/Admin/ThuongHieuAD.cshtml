@@ -1,0 +1,87 @@
+﻿@model X.PagedList.IPagedList<mi_pham_kem.Models.SQLServer.ThuongHieu>
+@using X.PagedList
+@using X.PagedList.Mvc.Core
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger d-flex align-items-center" role="alert">
+        <i class="bi bi-exclamation-circle-fill me-2"></i>
+        <div>
+            @TempData["ErrorMessage"]
+        </div>
+        <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success d-flex align-items-center" role="alert">
+        <i class="bi bi-check-circle-fill me-2"></i>
+        <div>
+            @TempData["SuccessMessage"]
+        </div>
+        <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+
+@{
+    ViewData["Title"] = "Quản lý thương hiệu";
+    Layout = "~/Views/Shared/_LayoutAD.cshtml";
+}
+
+<div class="container-fluid px-4 mt-4">
+    <div class="card shadow border-0 rounded-4">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center py-3 rounded-top-4">
+            <h4 class="mb-0"><i class="bi bi-tags-fill me-2"></i>Quản lý thương hiệu</h4>
+            <a class="btn btn-light text-primary fw-semibold rounded-pill" asp-action="ThemThuongHieuAD">
+                <i class="bi bi-plus-circle-dotted me-1"></i> Thêm thương hiệu
+            </a>
+        </div>
+
+        <div class="card-body bg-white rounded-bottom-4">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover text-center align-middle">
+                    <thead class="table-secondary">
+                        <tr>
+                            <th scope="col">Tên thương hiệu</th>
+                            <th scope="col" style="width: 220px;">Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.TenThuongHieu</td>
+                                <td>
+                                    <a class="btn btn-sm btn-warning rounded-pill me-1"
+                                       asp-action="SuaThuongHieuAD" asp-route-id="@item.MaTh">
+                                        <i class="bi bi-pencil-square me-1"></i>Sửa
+                                    </a>
+                                    <a class="btn btn-sm btn-info text-white rounded-pill me-1"
+                                       asp-action="ChiTietThuongHieuAD" asp-route-id="@item.MaTh">
+                                        <i class="bi bi-info-circle me-1"></i>Chi tiết
+                                    </a>
+                                    <form method="post" asp-action="XoaThuongHieuAD" asp-route-id="@item.MaTh"
+                                          style="display:inline;"
+                                          onsubmit="return confirm('Bạn có chắc chắn muốn xóa thương hiệu này không?');">
+                                        <button type="submit" class="btn btn-sm btn-danger rounded-pill">
+                                            <i class="bi bi-trash me-1"></i>Xóa
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="d-flex justify-content-center mt-3">
+                @Html.PagedListPager(Model, page => Url.Action("ThuongHieuAD", new { page }), new PagedListRenderOptions
+           {
+               UlElementClasses = new[] { "pagination", "justify-content-center" },
+               LiElementClasses = new[] { "page-item" },
+               PageClasses = new[] { "page-link" }
+           })
+            </div>
+        </div>
+    </div>
+</div>
