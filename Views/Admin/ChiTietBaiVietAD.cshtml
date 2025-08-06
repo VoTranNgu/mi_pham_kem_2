@@ -1,0 +1,39 @@
+﻿@model mi_pham_kem.Models.SQLServer.BaiViets
+
+@{
+    ViewData["Title"] = "Chi tiết bài viết";
+    Layout = "~/Views/Shared/_LayoutAD.cshtml";
+}
+
+<div class="container mt-4">
+    <div class="card shadow border-0 rounded-4">
+        <div class="card-header bg-info text-white d-flex justify-content-between align-items-center py-3 rounded-top-4">
+            <h4 class="mb-0">
+                <i class="bi bi-newspaper me-2"></i> Chi tiết bài viết
+            </h4>
+            <a class="btn btn-light text-info fw-semibold rounded-pill" asp-action="BaiVietAD">
+                <i class="bi bi-arrow-left-circle me-1"></i> Quay lại danh sách
+            </a>
+        </div>
+
+        <div class="card-body bg-white rounded-bottom-4">
+            <h3 class="fw-bold text-primary">@Model.TieuDe</h3>
+
+            <p class="text-muted mb-4">
+                <i class="bi bi-calendar-event me-1"></i>
+                Ngày đăng: @Model.NgayDang.ToString("dd/MM/yyyy HH:mm")
+            </p>
+
+            @if (!string.IsNullOrEmpty(Model.AnhDaiDien))
+            {
+                <div class="mb-4 text-center">
+                    <img src="@Model.AnhDaiDien" alt="@Model.TieuDe" class="img-fluid rounded shadow" style="max-height:400px;" />
+                </div>
+            }
+
+            <div class="article-content" style="line-height: 1.8;">
+                @Html.Raw(Model.NoiDung)
+            </div>
+        </div>
+    </div>
+</div>

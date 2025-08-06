@@ -1,4 +1,5 @@
-﻿@model mi_pham_kem.Models.SQLServer.SanPham
+﻿@model ChiTietSanPhamViewModel
+
 
 @{
     ViewData["Title"] = "ChiTiet";
@@ -118,6 +119,32 @@
         font-size: 16px;
         transition: border-color 0.3s ease;
     }
+
+    .title {
+        background: #fff;
+        padding: 0 10px;
+        font-size: 25px;
+        font-weight: bold;
+        color: #de5f94;
+        font-family: 'Pacifico', cursive;
+    }
+
+    .pagination .page-link {
+        color: #de5f94;
+        border-color: #de5f94;
+    }
+
+    .pagination .page-item.active .page-link {
+        background-color: #de5f94;
+        border-color: #de5f94;
+        color: white;
+    }
+
+    .pagination .page-link:hover {
+        background-color: #f8d4e3;
+        border-color: #de5f94;
+        color: #de5f94;
+    }
 </style>
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -137,16 +164,16 @@
     <section class="product-detail container mt-5">
     <div class="row">
         <div class="col-md-6">
-                <img id="mainImage" src="@Model.HinhAnh" class="img-fluid rounded" alt="@Model.TenSanPham" style="height:400px; object-fit:cover;" />
+                <img id="mainImage" src="@Model.SanPham.HinhAnh" class="img-fluid rounded" alt="@Model.SanPham.TenSanPham" style="height:400px; object-fit:cover;" />
                 <br />
                <div class="list-image">
-                    <img src="@Model.HinhAnh" class="img-thumbnail thumbnail" onclick="changeImage(this)" alt="hinhgoc"/>
-                    <img src="@Model.Hinh2" class="img-thumbnail thumbnail" onclick="changeImage(this)" alt="hinh1"/>
-                    <img src="@Model.Hinh3" class="img-thumbnail thumbnail" onclick="changeImage(this)" alt="hinh2"/>
+                    <img src="@Model.SanPham.HinhAnh" class="img-thumbnail thumbnail" onclick="changeImage(this)" alt="hinhgoc" />
+                    <img src="@Model.SanPham.Hinh2" class="img-thumbnail thumbnail" onclick="changeImage(this)" alt="hinh1" />
+                    <img src="@Model.SanPham.Hinh3" class="img-thumbnail thumbnail" onclick="changeImage(this)" alt="hinh2" />
                </div>
         </div>
         <div class="col-md-6">
-            <h1 class="fw-bold">@Model.TenSanPham</h1>
+                <h1 class="fw-bold">@Model.SanPham.TenSanPham</h1>
             <div class="mb-2">
     @for (int i = 1; i <= 5; i++)
     {
@@ -164,17 +191,17 @@
     </span>
 </div>
 
-            <p>Thương hiệu: <strong>@Model.MaThNavigation.TenThuongHieu</strong></p>
-            <p>Danh mục: <strong>@Model.MaDmNavigation.TenDanhMuc</strong></p>
-            <p>Mô tả sản phẩm: <strong>@Model.MoTa</strong></p>
+                <p>Thương hiệu: <strong>@Model.SanPham.MaThNavigation.TenThuongHieu</strong></p>
+                <p>Danh mục: <strong>@Model.SanPham.MaDmNavigation.TenDanhMuc</strong></p>
+                <p>Mô tả sản phẩm: <strong>@Model.SanPham.MoTa</strong></p>
                 <p>
-                    <span style="color:#de5f94; font-weight:bold; font-size:30px">@String.Format("{0:N0}", Model.Gia) ₫</span>
+                    <span style="color:#de5f94; font-weight:bold; font-size:30px">@String.Format("{0:N0}", Model.SanPham.Gia) ₫</span>
                     <span class="text-muted text-decoration-line-through" style="font-weight:bold; margin-left: 10px;">
-                        @String.Format("{0:N0}", Model.Gia + 20000) ₫
+                        @String.Format("{0:N0}", Model.SanPham.Gia + 20000) ₫
                     </span>
                 </p>
                 <form asp-controller="GioHang" asp-action="Them" method="post">
-                    <input type="hidden" name="maSanPham" value="@Model.MaSanPham" />
+                    <input type="hidden" name="maSanPham" value="@Model.SanPham.MaSanPham" />
                     <div class="d-flex align-items-center mb-3">
                         <label for="soLuong" class="me-2">Số lượng:</label>
                         <button type="button" class="button-add" style="color:#de5f94; background-color: white; border-color: #de5f94; border: 3px"  onclick="thayDoiSoLuong(-1)">-</button>
@@ -203,8 +230,7 @@
         }
     </script>
     <br />
-    <hr />
-    <section class="rate" style="margin-top:40px">
+    <section class="rate" style="margin-top:50px">
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
@@ -214,52 +240,67 @@
                         </div>
 
                         <div class="order-body">
-                            <form asp-controller="SanPham" asp-action="ThemDanhGia" method="post">
-                                <input type="hidden" name="MaSanPham" value="@Model.MaSanPham" />
+                            @if (ViewBag.ChoPhepDanhGia == true)
+                            {
+                                <form asp-controller="SanPham" asp-action="ThemDanhGia" method="post">
+                                    <input type="hidden" name="MaSanPham" value="@Model.SanPham.MaSanPham" />
 
-                                <p style="font-weight: bold">Đánh giá:</p>
-                                <div id="star-rating">
-                                    @for (int i = 5; i >= 1; i--)
-                                    {
-                                        <input type="radio" name="DiemDanhGia" value="@i" id="star@i" />
-                                        <label for="star@i" class="fa fa-star star" data-value="@i" style="margin-left: 5px"></label>
-                                    }
-                                </div>
-                                <p id="rating-result" style="margin-top: 10px; color: #555;">Chưa chọn đánh giá</p>
+                                    <p style="font-weight: bold">Đánh giá:</p>
+                                    <div id="star-rating">
+                                        @for (int i = 5; i >= 1; i--)
+                                        {
+                                            <input type="radio" name="DiemDanhGia" value="@i" id="star@i" />
+                                            <label for="star@i" class="fa fa-star star" data-value="@i" style="margin-left: 5px"></label>
+                                        }
+                                    </div>
+                                    <p id="rating-result" style="margin-top: 10px; color: #555;">Chưa chọn đánh giá</p>
 
-                                <script>
-                                    document.addEventListener("DOMContentLoaded", function () {
-                                        const stars = document.querySelectorAll("#star-rating .star");
-                                        const result = document.getElementById("rating-result");
+                                    <script>
+                                            document.addEventListener("DOMContentLoaded", function () {
+                                            const stars = document.querySelectorAll("#star-rating .star");
+                                            const result = document.getElementById("rating-result");
 
-                                        stars.forEach(star => {
-                                            star.addEventListener("click", function () {
-                                                const rating = parseInt(this.getAttribute("data-value"));
+                                            stars.forEach(star => {
+                                                star.addEventListener("click", function () {
+                                                    const rating = parseInt(this.getAttribute("data-value"));
 
-                                                stars.forEach(s => s.classList.remove("selected"));
+                                                    stars.forEach(s => s.classList.remove("selected"));
+                                                    stars.forEach(s => {
+                                                        const starValue = parseInt(s.getAttribute("data-value"));
+                                                        if (starValue <= rating) {
+                                                            s.classList.add("selected");
+                                                        }
+                                                    });
 
-                                                stars.forEach(s => {
-                                                    const starValue = parseInt(s.getAttribute("data-value"));
-                                                    if (starValue <= rating) {
-                                                        s.classList.add("selected");
+                                                    const radio = document.getElementById(`star${rating}`);
+                                                    if (radio) {
+                                                        radio.checked = true;
                                                     }
+
+                                                    result.textContent = `Bạn đã đánh giá: ${rating}/5 sao`;
                                                 });
-                                                result.textContent = `Bạn đã đánh giá: ${rating}/5 sao`;
                                             });
                                         });
-                                    });
-                                </script>
+
+                                    </script>
 
 
 
-                                <br />
-                                <p style="font-weight: bold">Nội dung đánh giá:</p>
-                                <textarea name="BinhLuan" class="rateinput form-control" rows="3" placeholder="Nhập nhận xét của bạn..." required></textarea>
+                                    <br />
+                                    <p style="font-weight: bold">Nội dung đánh giá:</p>
+                                    <textarea name="BinhLuan" class="rateinput form-control" rows="3" placeholder="Nhập nhận xét của bạn..." required></textarea>
 
-                                <button type="submit" class="button-custom" style="background-color: #de5f94; margin-top: 30px">Gửi đánh giá</button>
-                            </form>
-
+                                    <button type="submit" class="button-custom" style="background-color: #de5f94; margin-top: 30px">Gửi đánh giá</button>
+                                </form>
+                            }
+                            else
+                            {
+                                <p style="color: red; font-weight: bold; text-align:center; margin-top:30px;">
+                                    Rất tiếc! Bạn chưa mua sản phẩm này nên không thể tiến hành đánh giá bây giờ.
+                                </p>
+                            }
                         </div>
+
                     </div>
                 </div>
 
@@ -289,6 +330,16 @@
                                 <div>@dg.BinhLuan</div>
                             </div>
                         }
+                        <nav>
+                            <ul class="pagination justify-content-center">
+                                @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                                {
+                                    <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                                        <a class="page-link" href="@Url.Action("ChiTiet", "SanPham", new { id = Model.SanPham.MaSanPham, page = i })">@i</a>
+                                    </li>
+                                }
+                            </ul>
+                        </nav>
                     }
                     else
                     {
@@ -297,7 +348,25 @@
                 </div>
                 </div>
             </div>
+        
+    </section>
+    <hr style="margin:50px" />
+    <section class="LienQuan" style="margin:50px;">
+        <div style="text-align: center">
+            <span style="color: #de5f94; font-weight: bold; font-size: 40px;  margin: 50px;">Sản phẩm liên quan</span>
+
+        </div>
+        <br/>
+        <div class="row">
+            @foreach (var sp in Model.SanPhamLienQuan)
+            {
+                <div class="col-md-3">
+                    @Html.Partial("_CardSanPham", sp)
+                </div>
+            }
         </div>
     </section>
+
+
 </body>
 

@@ -1,0 +1,41 @@
+﻿@model IEnumerable<mi_pham_kem.Models.SQLServer.SanPham>
+
+ 
+@if (Model != null && Model.Any())
+{
+    @foreach (var item in Model)
+    {
+
+        <div class="col-lg-3 col-md-4 col-sm-6 mb-4 d-flex align-items-stretch">
+                     <a href="@Url.Action("ChiTiet", "SanPham", new { id = item.MaSanPham })" class="text-decoration-none text-dark">
+
+                <div class="card custom-card product-card w-100 h-100 d-flex flex-column"
+                     data-danhmuc="@item.MaDm" data-thuonghieu="@item.MaTh">
+                <img src="@item.HinhAnh" class="card-img-top" alt="Ảnh sản phẩm" style="height: 280px; object-fit: cover;" />
+                <div class="card-body">
+                    <h5 class="card-title fw-bold" style="font-size:27px">@item.TenSanPham</h5>
+                    <p class="card-text text-black">
+                        @item.MaThNavigation?.TenThuongHieu - @item.MaDmNavigation?.TenDanhMuc
+                    </p>
+                    <p class="card-text">
+                        <span style="color: #de5f94; font-weight: bold; font-size: 24px">
+                            @String.Format("{0:N0}", item.Gia) ₫
+                        </span>
+                        <span class="text-muted text-decoration-line-through">@String.Format("{0:N0}", item.Gia + 20000) ₫</span>
+                    </p>
+                    <form asp-controller="GioHang" asp-action="Them" method="post">
+                        <input type="hidden" name="maSanPham" value="@item.MaSanPham" />
+                        <input type="hidden" name="soLuong" value="1" />
+                        <button type="submit" class="button-custom" style="text-decoration: none; color: white;">Mua hàng</button>
+                    </form>
+                </div>
+            </div>
+                    </a>
+        </div>
+
+    }
+}
+else
+{
+    <div class="col-12"><p>Không có sản phẩm nào.</p></div>
+}

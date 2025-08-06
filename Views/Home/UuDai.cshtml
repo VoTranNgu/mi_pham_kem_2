@@ -1,0 +1,88 @@
+﻿@model List<mi_pham_kem.Models.SQLServer.UuDai>
+@{
+    ViewData["Title"] = "Ưu đãi của bạn";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="~/css/TrangChuStyle.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Edu+NSW+ACT+Cursive:wght@400..700&family=Edu+VIC+WA+NT+Hand+Pre:wght@400..700&family=Pacifico&family=Quicksand:wght@300..700&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <style>
+        .uudai-container {
+            max-width: 1200px;
+            margin: 50px auto;
+        }
+
+        .uudai-title {
+            text-align: center;
+            color: #d63384;
+            margin-bottom: 40px;
+        }
+
+        .uudai-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .uudai-card {
+            width: 300px;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+            background-color: #fff6fb;
+            transition: transform 0.2s;
+        }
+
+            .uudai-card:hover {
+                transform: scale(1.02);
+            }
+
+            .uudai-card h4 {
+                color: #d63384;
+                font-weight: bold;
+                margin-bottom: 10px;
+            }
+
+            .uudai-card p {
+                margin: 4px 0;
+            }
+
+        .uudai-empty {
+            text-align: center;
+            color: gray;
+        }
+    </style>
+</head>
+<div class="container mt-4">
+    <h2 class="mb-4">Các ưu đãi bạn có thể sử dụng</h2>
+    <div class="row">
+        @if (Model.Count == 0)
+        {
+            <p>Không có ưu đãi nào khả dụng.</p>
+        }
+        else
+        {
+            <div class="uudai-list">
+                @foreach (var item in Model)
+                {
+                    <div class="uudai-card">
+                        <div style="text-align: center"> <h4>@item.NoiDungMa</h4></div>
+                        <p><strong>Giảm:</strong> @string.Format("{0:N0}", item.GiaGiam) VNĐ</p>
+                        <p><strong>Đơn tối thiểu:</strong> @string.Format("{0:N0}", item.GiaToiThieu) VNĐ</p>
+                        <p><strong>Hạn dùng:</strong> @(item.ThoiHan?.ToString("dd/MM/yyyy"))</p>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+    <div style="text-align: center">
+        <a href="/GioHang/GioHang" style="text-align: center"><button style="margin: 30px" class="button-custom">Đến giỏ hàng</button></a>
+    </div>
+</div>

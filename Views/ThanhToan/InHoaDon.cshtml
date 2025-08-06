@@ -1,0 +1,87 @@
+﻿@model mi_pham_kem.Models.SQLServer.DonHang
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Hóa đơn</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .invoice-box {
+            max-width: 800px;
+            margin: auto;
+            padding: 30px;
+            border: 1px solid #eee;
+        }
+
+        table {
+            width: 100%;
+            line-height: inherit;
+            text-align: left;
+            border-collapse: collapse;
+        }
+
+            table td {
+                padding: 5px;
+                vertical-align: top;
+            }
+
+            table tr td:nth-child(2) {
+                text-align: right;
+            }
+
+            table tr.heading td {
+                background: #eee;
+                border-bottom: 1px solid #ddd;
+                font-weight: bold;
+            }
+
+            table tr.item td {
+                border-bottom: 1px solid #eee;
+            }
+
+        .total {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="invoice-box">
+        <h2 style="text-align:center;">HÓA ĐƠN BÁN HÀNG</h2>
+        <p><strong>Mã hóa đơn:</strong> @Model.MaHd</p>
+        <p><strong>Ngày thanh toán:</strong> @Model.MaHdNavigation.NgayThanhToan</p>
+        <p><strong>Khách hàng:</strong> @Model.MaKhNavigation.HoTen</p>
+
+        <table>
+            <tr class="heading">
+                <td>Sản phẩm</td>
+                <td>Số lượng</td>
+                <td>Đơn giá</td>
+                <td>Thành tiền</td>
+            </tr>
+            @foreach (var item in Model.ChiTietDonHangs)
+            {
+                <tr class="item">
+                    <td>@item.MaSanPhamNavigation.TenSanPham</td>
+                    <td>@item.SoLuong</td>
+                    <td>@item.DonGia.ToString("N0") đ</td>
+                    <td>@(item.SoLuong* item.DonGia).ToString("N0") đ</td>
+                </tr>
+            }
+            <tr>
+                <td colspan="3" class="total">Tổng cộng:</td>
+                <td class="total">@Model.TongTien.ToString("N0") đ</td>
+            </tr>
+        </table>
+
+        <br />
+        <button onclick="window.print()">🖨 In hóa đơn</button>
+    </div>
+</body>
+</html>

@@ -1,11 +1,11 @@
 ﻿@{
     Layout = null;
+    string nameUser = Context.Session.GetString("NameUser");
  }
 <style>
     a {
         text-decoration: none;
     }
-
     .nav-item {
         position: relative;
         display: inline-block;
@@ -60,6 +60,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Qwitcher+Grypen:wght@400;700&display=swap" rel="stylesheet">
+    @RenderSection("Styles", required: false)
 </head>
 <body>
     <header>
@@ -67,16 +68,17 @@
         <nav class="navbar">
             <a href="/Home/Index" style="text-decoration: none;">Trang chủ</a>
             <a href="/Home/Product">Sản phẩm</a>
-            <a href="#">Danh mục</a>
-            <a href="#">Thương hiệu</a>
-         
+            <a href="/Home/UuDai">Ưu đãi</a>
+            <a href="/Home/DMvaTH">Danh mục & Thương hiệu</a>
             <a href="/Home/Index/#about">Về chúng tôi</a>
+            <a href="/BaiViet/Index" style="text-decoration: none;">Bài viết</a>
         </nav>
         <div class="icon d-flex align-items-center gap-2">
 
 
         </div>
         <div class="icon-gr">
+
 
             @if (Context.Session.GetInt32("MaKh") == null)
             {
@@ -87,7 +89,21 @@
             }
             else
             {
+                <div style="text-align:center; margin-bottom:5px">
+                    <span>Xin chào, </span>
+                    <span style="font-weight: bold; color: #de5f94;">
+                        @Context.Session.GetString("NameUser")!
+                    </span>
+                </div>
                 <div>
+                    @if (!string.IsNullOrEmpty(nameUser))
+                    {
+                        <a href="/TaiKhoan/ThongTin" title="Thông tin tài khoản"
+                           style="display: inline-block; width: 45px; height: 50px;">
+                            <img src="~/lib/image/user-circle.png" alt="Tài khoản"
+                                 style="width: 60%; height: 60%; object-fit: contain; margin-top: 20%;">
+                        </a>
+                    }
                     <a href="/GioHang/GioHang" title="Giỏ hàng"
                        style="display: inline-block; width: 45px; height: 50px;">
                         <img src="~/lib/image/groceries.png" alt="Giỏ hàng"
@@ -98,12 +114,7 @@
                         Đăng xuất
                     </a>
                 </div>
-                <div>
-                    <span>Xin chào, </span>
-                    <span style="font-weight: bold; color: #de5f94;">
-                        @Context.Session.GetString("NameUser")!
-                    </span>
-                </div>
+
 
 
             }
@@ -117,10 +128,11 @@
             <div class="box">
                 <h3>Đến nhanh</h3>
                 <a href="/Home/Index" style="text-decoration: none;">Trang chủ</a>
-                <a href="#product" style="text-decoration: none;">Sản phẩm</a>
-                <a href="#contact" style="text-decoration: none;">Danh mục</a>
-                <a href="#review" style="text-decoration: none;">Thương hiệu</a>
-                <a href="/Home/Index/#about" style="text-decoration: none;">Về chúng tôi</a>
+                <a href="/Home/Product">Sản phẩm</a>
+                <a href="/Home/UuDai">Ưu đãi</a>
+                <a href="/Home/DMvaTH">Danh mục & Thương hiệu</a>
+                <a href="/Home/Index/#about">Về chúng tôi</a>
+                <a href="/BaiViet/Index" style="text-decoration: none;">Bài viết</a>
             </div>
 
             <div class="box">

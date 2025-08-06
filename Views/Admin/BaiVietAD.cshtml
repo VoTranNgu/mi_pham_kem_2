@@ -1,0 +1,79 @@
+﻿@model X.PagedList.IPagedList<mi_pham_kem.Models.SQLServer.BaiViets>
+@using X.PagedList
+@using X.PagedList.Mvc.Core
+
+@{
+    ViewData["Title"] = "Quản lý bài viết";
+    Layout = "~/Views/Shared/_LayoutAD.cshtml";
+}
+
+<div class="container-fluid px-4 mt-4">
+    <div class="card shadow border-0 rounded-4">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center py-3 rounded-top-4">
+            <h4 class="mb-0"><i class="bi bi-journal-text me-2"></i>Quản lý bài viết</h4>
+            <a class="btn btn-light text-primary fw-semibold rounded-pill" asp-action="ThemBaiViet">
+                <i class="bi bi-plus-circle-dotted me-1"></i> Thêm bài viết
+            </a>
+        </div>
+
+        <div class="card-body bg-white rounded-bottom-4">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover text-center align-middle">
+                    <thead class="table-secondary">
+                        <tr>
+                            <th scope="col">Tiêu đề</th>
+                            <th scope="col">Ngày đăng</th>
+                            <th scope="col">Ảnh đại diện</th>
+                            <th scope="col" style="width: 220px;">Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.TieuDe</td>
+                                <td>@item.NgayDang.ToString("dd/MM/yyyy")</td>
+                                <td>
+                                    @if (!string.IsNullOrEmpty(item.AnhDaiDien))
+                                    {
+                                        <img src="@item.AnhDaiDien" alt="Ảnh đại diện" style="max-height:60px;">
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">Không có ảnh</span>
+                                    }
+                                </td>
+                                <td>
+                                    <a class="btn btn-sm btn-warning rounded-pill me-1"
+                                       asp-action="SuaBaiViet" asp-route-id="@item.Id">
+                                        <i class="bi bi-pencil-square me-1"></i>Sửa
+                                    </a>
+                                    <a class="btn btn-sm btn-info text-white rounded-pill me-1"
+                                       asp-action="ChiTietBaiVietAD" asp-route-id="@item.Id">
+                                        <i class="bi bi-info-circle me-1"></i>Chi tiết
+                                    </a>
+                                    <form method="post" asp-action="XoaBaiViet" asp-route-id="@item.Id"
+                                          style="display:inline;"
+                                          onsubmit="return confirm('Bạn có chắc chắn muốn xóa bài viết này không?');">
+                                        <button type="submit" class="btn btn-sm btn-danger rounded-pill">
+                                            <i class="bi bi-trash me-1"></i>Xóa
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="d-flex justify-content-center mt-3">
+                @Html.PagedListPager(Model, page => Url.Action("BaiVietAD", new { page }), new PagedListRenderOptions
+                {
+                    UlElementClasses = new[] { "pagination", "justify-content-center" },
+                                LiElementClasses = new[] { "page-item" },
+                                PageClasses = new[] { "page-link" }
+                                })
+            </div>
+        </div>
+    </div>
+</div>

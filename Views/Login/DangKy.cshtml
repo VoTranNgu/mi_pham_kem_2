@@ -1,82 +1,174 @@
 ﻿@model mi_pham_kem.Models.SQLServer.User
-
 @{
     Layout = null;
-    ViewBag.Title = "DangKy";
+    ViewBag.Title = "Đăng ký";
 }
 
+<!DOCTYPE html>
+<html lang="vi">
 <head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="~/css/login.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Edu+NSW+ACT+Cursive:wght@400..700&family=Edu+VIC+WA+NT+Hand+Pre:wght@400..700&family=Pacifico&family=Quicksand:wght@300..700&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewBag.Title</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Quicksand", sans-serif; }
+        body {
+            display: flex; align-items: center; justify-content: center;
+            min-height: 100vh; padding: 15px;
+            background-image: url('/lib/image/banner2.png');
+            background-position: center;
+            overflow: auto;
+        }
+        .wrapper {
+            max-width: 650px; width: 100%;
+            background: #fff; border-radius: 5px;
+            box-shadow: 0px 4px 10px 1px rgba(0,0,0,0.1);
+        }
+        .wrapper .title {
+            height: 120px; background: #de5f94;
+            border-radius: 5px 5px 0 0; color: #fff;
+            font-size: 30px; font-weight: 600;
+            display: flex; align-items: center; justify-content: center;
+            font-family: "Pacifico", cursive;
+        }
+        .wrapper form { padding: 25px 35px; }
+        .form-row {
+            height: 60px; margin-top: 30px; position: relative;
+           
+        }
+        .form-row input {
+            height: 100%; width: 100%;
+            outline: none; padding-left: 55px; padding-right: 40px;
+            border-radius: 5px; border: 1px solid lightgrey;
+            font-size: 16px; transition: all 0.3s ease;
+        }
+        .form-row input:focus { border-color: #de5f94; }
+        .form-row input::placeholder { color: #999; }
+        .form-row i.input-icon-left {
+            position: absolute; width: 45px; height: 100%;
+            color: #fff; font-size: 18px;
+            background: #de5f94; border: 1px solid #de5f94;
+            border-radius: 5px 0 0 5px;
+            display: flex; align-items: center; justify-content: center;
+            left: 0; top: 0;
+        }
+        .form-row i.input-icon-eye {
+            position: absolute; right: 12px; top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer; font-size: 16px; color: gray;
+        }
+        .form-row i.input-icon-eye:hover { color: #de5f94; }
+        .row-group { display: flex; gap: 15px; flex-wrap: wrap; }
+        .row-group .col { flex: 1; min-width: 250px; }
+        .wrapper form .button {
+            margin-top: 25px;
+        }
+        .wrapper form .button input {
+            height: 60px; width: 100%;
+            border-radius: 50px;
+            color: #fff; font-size: 20px; font-weight: 500;
+            background: #de5f94; border: 1px solid #de5f94;
+            cursor: pointer; text-align: center;
+        }
+        .wrapper form .button input:hover { background: #b33e6f; }
+        .signup-link {
+            text-align: center; margin-top: 20px; font-size: 16px;
+        }
+        .signup-link a {
+            color: #de5f94; text-decoration: none;
+        }
+        .signup-link a:hover { text-decoration: underline; }
+        .text-danger {
+    color: red !important;
+}
+    </style>
 </head>
-
 <body>
-    <div class="box-login">
-        <form asp-action="DangKy" method="post">
-            @Html.AntiForgeryToken()
-            <br />
-            <h2>Đăng ký</h2>
-            <br />
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-6">
-                        <label>
-                            Họ tên:
-                            @Html.TextBoxFor(model => model.HoTen, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.HoTen)
-                        </label><br />
 
-                        <label>
-                            Số điện thoại:
-                            @Html.TextBoxFor(model => model.Sdt, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.Sdt)
-                        </label><br />
+<div class="wrapper">
+    <div class="title"><span>Đăng ký</span></div>
 
-                        <label>
-                            Email:
-                            @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.Email)
-                        </label><br />
+    @using (Html.BeginForm("DangKy", "Login", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
 
-                        <label>
-                            Địa chỉ:
-                            @Html.TextBoxFor(model => model.DiaChi, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.DiaChi)
-                        </label><br />
-                    </div>
-                    <div class="col-md-6">
-                        <label>
-                            Tên đăng nhập:
-                            @Html.TextBoxFor(model => model.TenDangNhap, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.TenDangNhap)
-                        </label><br />
-
-                        <label>
-                            Mật khẩu:
-                            @Html.PasswordFor(model => model.MatKhau, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.MatKhau)
-                        </label><br />
-                        <span onclick="togglePassword()" style="position: absolute; top: 55%; right: 10px; cursor: pointer;">
-                            <i id="eyeIcon" class="fa fa-eye"></i>
-                        </span>
-                        <label>
-                            Nhập lại mật khẩu:
-                            <input type="password" name="ConfirmPass" class="form-control" />
-                        </label><br />
-                        <span onclick="togglePassword()" style="position: absolute; top: 55%; right: 10px; cursor: pointer;">
-                            <i id="eyeIcon" class="fa fa-eye"></i>
-                        </span>
-                        
-                    </div>
+        <div class="row-group">
+            <div class="col">
+                <div class="form-row">
+                    <i class="fas fa-user input-icon-left"></i>
+                    @Html.TextBoxFor(m => m.HoTen, new { placeholder = "Họ tên", @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.HoTen, "", new { @class = "text-danger" })
                 </div>
-            </div>     
-            <button type="submit" class="button-custom">Tạo tài khoản</button><br />
-            <br />
-            <p>Đã có tài khoản? <a href="/Login/DangNhap">Đăng nhập</a></p>
-        </form>
-    </div>
+
+                <div class="form-row">
+                    <i class="fas fa-phone input-icon-left"></i>
+                    @Html.TextBoxFor(m => m.Sdt, new { placeholder = "Số điện thoại", @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Sdt, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-row">
+                    <i class="fas fa-envelope input-icon-left"></i>
+                    @Html.TextBoxFor(m => m.Email, new { placeholder = "Email", @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-row">
+                    <i class="fas fa-map-marker-alt input-icon-left"></i>
+                    @Html.TextBoxFor(m => m.DiaChi, new { placeholder = "Địa chỉ", @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.DiaChi, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-row">
+                    <i class="fas fa-id-card input-icon-left"></i>
+                    @Html.TextBoxFor(m => m.TenDangNhap, new { placeholder = "Tên đăng nhập", @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.TenDangNhap, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-row">
+                    <i class="fas fa-lock input-icon-left"></i>
+                    @Html.PasswordFor(m => m.MatKhau, new { placeholder = "Mật khẩu", @id = "MatKhau", @class = "form-control" })
+                    <i id="eyeIcon1" class="fa-solid fa-eye input-icon-eye" onclick="togglePassword('MatKhau','eyeIcon1')"></i>
+                    @Html.ValidationMessageFor(m => m.MatKhau, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-row">
+                    <i class="fas fa-lock input-icon-left"></i>
+                    <input type="password" name="ConfirmPass" id="ConfirmPass" placeholder="Nhập lại mật khẩu" class="form-control" />
+                    <i id="eyeIcon2" class="fa-solid fa-eye input-icon-eye" onclick="togglePassword('ConfirmPass','eyeIcon2')"></i>
+                    @Html.ValidationMessage("ConfirmPass", "", new { @class = "text-danger" })
+</div>
+                </div>
+            </div>
+
+        <div class="button">
+            <input type="submit" value="Tạo tài khoản" />
+        </div>
+        <div class="signup-link">Đã có tài khoản? <a href="/Login/DangNhap" style="font-weight:bold">Đăng nhập</a></div>
+    }
+</div>
+
+<script>
+    function togglePassword(inputId, iconId) {
+        var passwordInput = document.getElementById(inputId);
+        var eyeIcon = document.getElementById(iconId);
+
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            eyeIcon.classList.remove("fa-eye");
+            eyeIcon.classList.add("fa-eye-slash");
+        } else {
+            passwordInput.type = "password";
+            eyeIcon.classList.remove("fa-eye-slash");
+            eyeIcon.classList.add("fa-eye");
+        }
+    }
+</script>
+
 </body>
+</html>

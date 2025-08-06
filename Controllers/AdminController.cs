@@ -519,13 +519,17 @@ public IActionResult SuaUser(User model)
             return RedirectToAction("DangNhap", "Login");
         }
         //quanlidonhang
-        public IActionResult QuanLyAD()
+        public IActionResult QuanLyAD(int? page)
         {
+            int pageNumber = page ?? 1;
+            int pageSize = 10;
+
             var donHangs = _context.DonHangs
                 .Include(dh => dh.MaKhNavigation)
                 .Include(dh => dh.ChiTietDonHangs)
                     .ThenInclude(ct => ct.MaSanPhamNavigation)
-                .ToList();
+                .OrderByDescending(d => d.NgayDat)
+                .ToPagedList(pageNumber, pageSize);
 
             return View(donHangs);
         }
@@ -553,6 +557,20 @@ public IActionResult SuaUser(User model)
             {
                 return NotFound();
             }
+            
+            if(donHang.TrangThai == "Đã hoàn tất" && dh.MaHd == null)
+            {
+                var hoaDon = new HoaDon
+                {
+                    NgayThanhToan = DateOnly.FromDateTime(DateTime.Now),
+                    TongTien = dh.TongTien,
+                    MaKh = dh.MaKh
+                };
+                _context.HoaDons.Add(hoaDon);
+                _context.SaveChanges();
+                //gan MaHD vao DonHang
+                dh.MaHd = hoaDon.MaHd;
+            }
 
             dh.TrangThai = donHang.TrangThai;
             _context.SaveChanges();
@@ -560,6 +578,146 @@ public IActionResult SuaUser(User model)
             TempData["SuccessMessage"] = "Cập nhật trạng thái đơn hàng thành công.";
             return RedirectToAction("QuanLyAD"); 
         }
+
+        //Bai Viet
+        public IActionResult BaiVietAD(int? page)
+        {
+            int pageSize = 10;
+            int pageNumber = page ?? 1;
+
+            var dsBaiViet = _context.BaiViets
+                .OrderByDescending(b => b.NgayDang)
+                .ToPagedList(pageNumber, pageSize);
+
+            return View(dsBaiViet);
+        }
+
+        public IActionResult ThemBaiViet()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult ThemBaiViet(BaiViets model)
+        {
+            if (ModelState.IsValid)
+            {
+                model.NgayDang = DateTime.Now;
+                _context.BaiViets.Add(model);
+                _context.SaveChanges();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(model);
+        }
+
+        public IActionResult SuaBaiViet(int id)
+        {
+            var baiViet = _context.BaiViets.FirstOrDefault(b => b.Id == id);
+            if (baiViet == null)
+            {
+                return NotFound();
+            }
+            return View(baiViet);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult SuaBaiViet(int id, BaiViets model)
+        {
+            var baiViet = _context.BaiViets.FirstOrDefault(b => b.Id == id);
+            if (baiViet == null)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                baiViet.TieuDe = model.TieuDe;
+                baiViet.AnhDaiDien = model.AnhDaiDien;
+                baiViet.NoiDung = model.NoiDung;
+                //ngay dang khong doi
+                _context.SaveChanges();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(model);
+        }
+        [HttpPost]
+        public IActionResult XoaBaiViet(int id)
+        {
+            var item = _context.BaiViets.Find(id);
+            if (item != null)
+            {
+                _context.BaiViets.Remove(item);
+                _context.SaveChanges();
+            }
+            return RedirectToAction("BaiVietAD");
+        }
+        public IActionResult ChiTietBaiVietAD(int id)
+        {
+            var baiViet = _context.BaiViets.FirstOrDefault(b => b.Id == id);
+            if (baiViet == null)
+            {
+                TempData["ErrorMessage"] = "Không tìm thấy bài viết!";
+                return RedirectToAction("BaiVietAD");
+            }
+
+            return View(baiViet);
+        }
+        //thong ke
+        public IActionResult ThongKeDoanhThu(DateTime? fromDate, DateTime? toDate)
+        {
+            // Chuyển đổi DateTime? thành DateOnly
+            var from = fromDate.HasValue ? DateOnly.FromDateTime(fromDate.Value) : DateOnly.MinValue;
+            var to = toDate.HasValue ? DateOnly.FromDateTime(toDate.Value) : DateOnly.MaxValue;
+
+            // Truy vấn hóa đơn trong khoảng thời gian
+            var hoaDonQuery = _context.HoaDons
+                .Include(h => h.MaKhNavigation)
+                .Where(h => h.NgayThanhToan >= from && h.NgayThanhToan <= to);
+
+
+            // Tính tổng doanh thu
+            decimal doanhThu = hoaDonQuery.Sum(h => h.TongTien);
+
+            // Group theo tháng để tạo biểu đồ
+            var labels = new List<string>();
+            var doanhThuData = new List<decimal>();
+
+            var groupByMonth = hoaDonQuery
+                .ToList()
+                .GroupBy(h => new { h.NgayThanhToan.Month, h.NgayThanhToan.Year })
+                .OrderBy(g => g.Key.Year)
+                .ThenBy(g => g.Key.Month);
+
+            foreach (var g in groupByMonth)
+            {
+                labels.Add($"{g.Key.Month}/{g.Key.Year}");
+                doanhThuData.Add(g.Sum(x => x.TongTien));
+            }
+
+            // Danh sách hóa đơn
+            var donHangList = hoaDonQuery
+                .Select(h => new
+                {
+                    MaDon = h.MaHd,
+                    TenKhach = h.MaKhNavigation.HoTen,
+                    NgayDat = h.NgayThanhToan.ToDateTime(new TimeOnly(0, 0)),
+                    TongTien = h.TongTien,
+                    TrangThai = "Đã thanh toán"
+                }).ToList();
+
+            // Gửi dữ liệu qua ViewBag
+            ViewBag.DoanhThu = doanhThu;
+            ViewBag.Labels = labels;
+            ViewBag.DoanhThuData = doanhThuData;
+            ViewBag.TienVonData = new List<decimal>(); // rỗng vì không dùng
+            ViewBag.TraHang = 0;
+            ViewBag.LoiNhuan = doanhThu; // nếu không tính vốn thì doanh thu = lợi nhuận
+            ViewBag.DonHangList = donHangList;
+
+            return View();
+        }
+
 
     }
 }

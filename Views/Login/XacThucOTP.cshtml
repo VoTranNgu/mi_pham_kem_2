@@ -2,6 +2,7 @@
 @{
     Layout = null;
     ViewData["Title"] = "Đăng nhập";
+    var email = Context.Session.GetString("TempUser_Email") ?? "email không xác định";
 }
 
 <!DOCTYPE html>
@@ -174,57 +175,97 @@
             font-style: normal;
         }
 
+        .button-row {
+            display: flex;
+            gap: 10px;
+        }
+
+            .button-row input {
+                flex: 1;
+                height: 60px;
+                border-radius: 50px;
+                color: #fff;
+                font-size: 18px;
+                font-weight: 500;
+                background: #de5f94;
+                border: 1px solid #de5f94;
+                cursor: pointer;
+                text-align: center;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+                .button-row input:hover {
+                    background: #b33e6f;
+                }
+
+            .button-row .btn-back {
+                background: gray;
+                border-color: gray;
+            }
+
+                .button-row .btn-back:hover {
+                    background: #555;
+                }
+
+        a{
+            font-weight: bold;
+            color: #de5f94;
+        }
+            a hover{
+                background: #b33e6f;
+            }
     </style>
 </head>
 <body>
 
     <div class="wrapper">
-        <div class="title" style="font-family: 'Pacifico', cursive;"><span>Đăng nhập</span></div>
-
-        @using (Html.BeginForm("DangNhap", "Login", FormMethod.Post))
+        <div class="title" style="font-family: 'Pacifico', cursive;"><span>Xác thực OTP</span></div>
+        <p style="margin:20px; text-align:justify">Chúng tôi sẽ gửi 1 mã xác thực qua email: <strong>@email</strong> , vui lòng kiểm tra email để nhận mã.</p>
+        @using (Html.BeginForm("XacThucOTP", "Login", FormMethod.Post))
         {
             @Html.AntiForgeryToken()
 
             <div class="row">
-                <i class="fas fa-user input-icon-left"></i>
-                @Html.TextBoxFor(m => m.TenDangNhap, new { placeholder = "Tài khoản", @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.TenDangNhap, "", new { @class = "text-danger" })
-            </div>
-
-            <div class="row">
-                <i class="fas fa-lock input-icon-left"></i>
-                @Html.PasswordFor(m => m.MatKhau, new { placeholder = "Mật khẩu", @id = "MatKhau", @class = "form-control" })
-                <i id="eyeIcon" class="fa-solid fa-eye input-icon-eye" onclick="togglePassword()"></i>
+                <i class="fas fa-key input-icon-left"></i>
+                @Html.TextBox("otpNhap", null, new { placeholder = "Nhập mã OTP" })
             </div>
 
             @if (ViewBag.ErrorInfo != null)
             {
                 <p class="text-danger mt-2" style="color:red; margin: 10px">@ViewBag.ErrorInfo</p>
             }
-            <div class="row button">
-                <input type="submit" value="Đăng nhập" style="text-align: center"/>
-            </div>
+<div style="margin: 15px; text-align: center">
+    <p id="countdownText">Gửi lại mã sau <span id="countdown">60</span>s</p>
+    <a id="resendLink" href="@Url.Action("GuiLaiOTP", "Login")" style="display:none;">Gửi lại mã</a>
+</div>
 
-            <div class="signup-link">Bạn chưa có tài khoản? <a href="/Login/DangKy"  style="font-weight:bold">Đăng ký ngay!</a></div>
+            <div class="row button-row" style="padding: 0px; ">
+                <input type="submit" value="Xác thực mã" class="btn-otp" style="border-radius: 999px; padding: 0; " />
+                <input onclick="window.history.back()" value="Quay lại" class="btn-otp btn-back" style="border-radius: 999px; padding: 0; " />
+            </div>
         }
     </div>
 
     <script>
-        function togglePassword() {
-            var passwordInput = document.getElementById("MatKhau");
-            var eyeIcon = document.getElementById("eyeIcon");
+        let timeLeft = 60;
+        const countdownElem = document.getElementById("countdown");
+        const countdownText = document.getElementById("countdownText");
+        const resendLink = document.getElementById("resendLink");
 
-            if (passwordInput.type === "password") {
-                passwordInput.type = "text";
-                eyeIcon.classList.remove("fa-eye");
-                eyeIcon.classList.add("fa-eye-slash");
-            } else {
-                passwordInput.type = "password";
-                eyeIcon.classList.remove("fa-eye-slash");
-                eyeIcon.classList.add("fa-eye");
+        const countdownTimer = setInterval(function () {
+            timeLeft--;
+            countdownElem.textContent = timeLeft;
+
+            if (timeLeft <= 0) {
+                clearInterval(countdownTimer);
+                countdownText.style.display = "none";
+                resendLink.style.display = "inline";
             }
-        }
+        }, 1000);
     </script>
+
 
 </body>
 </html>

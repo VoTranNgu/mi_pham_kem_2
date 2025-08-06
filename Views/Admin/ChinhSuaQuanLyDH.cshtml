@@ -32,12 +32,28 @@
                 <div class="mb-3">
                     <label class="form-label">Trạng thái:</label>
                     <select asp-for="TrangThai" class="form-select">
-                        <option value="Đã xác nhận">Đã xác nhận</option>
-                        <option value="Đang vận chuyển">Đang vận chuyển</option>
-                        <option value="Đã giao hàng">Đã giao hàng</option>
-                        <option value="Đã hoàn tất">Đã hoàn tất</option>
+                        @if (Model.TrangThai == "Đã xác nhận")
+                        {
+                            <option value="Đã xác nhận">Đã xác nhận</option>
+                            <option value="Đang vận chuyển">Đang vận chuyển</option>
+                        }
+                        else if (Model.TrangThai == "Đang vận chuyển")
+                        {
+                            <option value="Đang vận chuyển">Đang vận chuyển</option>
+                            <option value="Đã giao hàng">Đã giao hàng</option>
+                        }
+                        else if (Model.TrangThai == "Đã giao hàng")
+                        {
+                            <option value="Đã giao hàng">Đã giao hàng</option>
+                            <option value="Đã hoàn tất">Đã hoàn tất</option>
+                        }
+                        else if (Model.TrangThai == "Đã hoàn tất")
+                        {
+                            <option value="Đã hoàn tất">Đã hoàn tất</option>
+                        }
                     </select>
                 </div>
+
 
                 <button type="submit" class="btn btn-success rounded-pill">
                     <i class="bi bi-save me-1"></i> Lưu thay đổi

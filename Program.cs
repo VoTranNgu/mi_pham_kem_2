@@ -1,4 +1,5 @@
 using mi_pham_kem.Models.SQLServer;
+using mi_pham_kem.Services;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -8,11 +9,11 @@ builder.Services.AddDbContext<MiPhamContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<PayOSService>();
-
+builder.Services.AddTransient<EmailService>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(30); // th?i gian timeout
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });

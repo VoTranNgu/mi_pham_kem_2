@@ -1,112 +1,110 @@
-﻿body {
-    font-size: 20px;
+﻿* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
     font-family: "Quicksand", sans-serif;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 15px;
     background-image: url('/lib/image/banner2.png');
     background-position: center;
-    display: flex;
-    background-repeat: no-repeat;
-    color: black;
-    justify-content: center;
-    align-items: center;
-    line-height: 1.5;
-    height: 100vh;
 }
 
-input {
-    height: 50px;
-    border: 2px solid #de5f94;
-    border-radius: 25px;
-    padding: 10px 15px;
-    font-size: 16px;
-    transition: border-color 0.3s ease;
-}
-.field-validation-error {
-    color: red;
-}
-
-h1 {
-    font-family: Oooh Baby;
-    font-size: 70px;
-    color: white;
-}
-h2 {
-    margin: 20px 0 20px 0;
-    font-size: 70px;
-    font-weight: normal;
-    font-family: "Pacifico", cursive;
-    color: #de5f94;
-    text-align: center;
-}
-label {
-    font-weight: bold;
-    justify-content: space-between;
-    align-items: center;
-    display: flex;
+.wrapper {
+    max-width: 650px;
     width: 100%;
-    text-align: left;
-    color: black;
-    margin: 5px 0 5px 0;
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0px 4px 10px 1px rgba(0,0,0,0.1);
 }
 
-input[type="text"], input[type="password"] {
-    margin-left: 15px;
-    height: 50px;
-    border-color: #de5f94;
-    border-radius: 30px;
-    border-width: 2px;
-    width: 65%;
-    padding-left: 15px;
-    color: black;
-    background-color: rgba(255, 255, 255, 0.8);
-}
-
-.box-login {
-    background-color: white;
-    border-radius: 30px;
-    padding: 30px;
-    padding-top: 15px;
-    text-align: center;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-    width: 50%;
-    max-width: 750px;
-}
-
-a {
-    color: #de5f94;
-    margin: 30px 0 30px;
-    font-weight: bold;
-    text-decoration: none;
-}
-
-    a:hover {
-        color: #b33e6f;
+    .wrapper .title {
+        height: 120px;
+        background: #de5f94;
+        border-radius: 5px 5px 0 0;
+        color: #fff;
+        font-size: 30px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Pacifico", cursive;
     }
 
-.container {
+form {
+    padding: 25px 35px;
+}
+
+.input-icon-left {
+    position: absolute;
+    left: 0;
+    top: 0;
     display: flex;
-}
-
-.column {
-    flex: 1;
-    padding: 10px;
-    border: 1px solid #ccc;
-}
-
-.button-custom {
-    background-color: #de5f94;
+    align-items: center;
+    justify-content: center;
+    background: #de5f94;
     color: #fff;
-    padding: 10px 24px;
-    border-radius: 30px;
-    font-size: 16px;
-    font-weight: 500;
-    border: none;
-    display: inline-block;
-    transition: all 0.3s ease;
-    text-decoration: none;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    border: 1px solid #de5f94;
+    border-radius: 5px 0 0 5px;
 }
 
-    .button-custom:hover {
-        background-color: #b33e6f;
-        transform: scale(1.05);
+.input-icon-eye {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: gray;
+}
+
+    .input-icon-eye:hover {
+        color: #de5f94;
     }
+
+input[type="text"], input[type="password"], input[type="email"] {
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid lightgrey;
+    padding-left: 55px;
+    padding-right: 40px;
+    font-size: 16px;
+}
+
+input[type="submit"] {
+    background: #de5f94;
+    border: 1px solid #de5f94;
+    color: #fff;
+    font-size: 20px;
+    font-weight: 500;
+    height: 60px;
+    border-radius: 50px;
+    cursor: pointer;
+}
+
+    input[type="submit"]:hover {
+        background: #b33e6f;
+    }
+
+.text-danger {
+    color: red !important;
+}
+
+.signup-link {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 16px;
+}
+
+    .signup-link a {
+        color: #de5f94;
+        text-decoration: none;
+    }
+
+        .signup-link a:hover {
+            text-decoration: underline;
+        }

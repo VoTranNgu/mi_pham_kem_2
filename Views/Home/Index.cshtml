@@ -63,6 +63,7 @@
     }
 
         section.product h1 {
+            margin: 30px;
             font-size: 70px;
             font-weight: normal;
             font-family: "Pacifico", cursive;
@@ -120,15 +121,30 @@
     </section>
     <section class="product">
         <br />
-        <h1>Sản phẩm bán chạy</h1>
-        <br />
-        @{
-            ViewData["DanhGias"] = ViewBag.DanhGias;
-            ViewData["DanhMucs"] = ViewBag.DanhMucs;
-            ViewData["ThuongHieus"] = ViewBag.ThuongHieus;
-        }
+        <h1>Sản phẩm mới</h1>
+        <div class="row g-4">
+            @foreach (var item in ViewBag.SanPhamMoi as List<mi_pham_kem.Models.SQLServer.SanPham>)
+            {
+                <div class="col-md-3 col-sm-6">
+                
+                    @Html.Partial("_CardSanPham", item)
+                
+            </div>
+                        }
+        </div>
 
-        @Html.Partial("_SanPhamPartial", Model, ViewData)
+        <br />
+        <h1>Sản phẩm bán chạy</h1>
+        <div class="row g-4">
+            @foreach (var item in ViewBag.SanPhamBanChay as List<mi_pham_kem.Models.SQLServer.SanPham>)
+            {
+                <div class="col-md-3 col-sm-6">
+                
+                    @Html.Partial("_CardSanPham", item)
+                
+            </div>
+             }
+        </div>
 
     </section>
     <section class="about" id="about">
@@ -140,7 +156,11 @@
                 Chúng tôi cam kết mang đến sản phẩm chất lượng cao từ các thương hiệu uy tín trong và ngoài nước.
                 Chella hướng đến trải nghiệm mua sắm trực tuyến tiện lợi, nhanh chóng và đáng tin cậy.
             </p>
-            <button class="button-custom" style="margin-top:30px; background-color: white; color: #de5f94"> Tìm hiểu thêm </button>
+            <a href="/BaiViet/VeChungToi"
+               class="button-custom"
+               style="display: inline-block; margin-top: 30px; background-color: white; color: #de5f94; padding: 10px 20px; text-decoration: none; border: none; border-radius: 5px;">
+                Tìm hiểu thêm
+            </a>
         </div>
         @*<video width="900" height="550" flop autoplay muted>
                 <source src="~/images/short.mp4" type="video/mp4" />

@@ -338,12 +338,10 @@ namespace mi_pham_kem.Controllers
         }
         public IActionResult PayOSCallback()
         {
-            // Sau khi PayOS redirect về, ta trả về view chứa form POST tự động submit
             return View("PayOSAutoSubmit");
         }
         public IActionResult PayOSReturn()
         {
-            // ✅ Tại đây bạn sẽ gọi hàm DatHang() để lưu đơn vào DB
             return RedirectToAction("DonHang");
         }
 
@@ -353,11 +351,130 @@ namespace mi_pham_kem.Controllers
             return RedirectToAction("XacNhanDon");
         }
 
+        //xu ly khi thanh toan payOS
+        //dat hang thanh cong
+        [HttpPost]
+        public IActionResult DatHangPayOS()
+        {
+            int? maKh = HttpContext.Session.GetInt32("MaKh");
+            if (maKh == null) return RedirectToAction("DangNhap", "Login");
 
-        public IActionResult ThanhCong()
+            var gioHang = _context.GioHangs
+                .Where(g => g.MaKh == maKh)
+                .Include(g => g.MaSanPhamNavigation)
+                .ToList();
+
+            if (!gioHang.Any()) return RedirectToAction("GioHang", "GioHang");
+
+            decimal tongTienSanPham = gioHang.Sum(g => g.SoLuong * g.MaSanPhamNavigation.Gia);
+            decimal giamGia = 0;
+            int? maUd = null;
+
+            // Kiểm tra mã ưu đãi (nếu có)
+            string? maUuDai = HttpContext.Session.GetString("MaUuDai");
+            if (!string.IsNullOrEmpty(maUuDai))
+            {
+                var uuDai = _context.UuDais.FirstOrDefault(u => u.NoiDungMa == maUuDai);
+                if (uuDai != null && (!uuDai.ThoiHan.HasValue || uuDai.ThoiHan >= DateOnly.FromDateTime(DateTime.Now)))
+                {
+                    if (!uuDai.GiaToiThieu.HasValue || tongTienSanPham >= uuDai.GiaToiThieu)
+                    {
+                        giamGia = uuDai.GiaGiam;
+                        maUd = uuDai.MaUd;
+                    }
+                }
+            }
+
+            // Tổng tiền đơn hàng cuối cùng = tổng sản phẩm - giảm giá + phí ship
+            decimal tongTienDonHang = tongTienSanPham - giamGia + 30000;
+            var hoaDon = new HoaDon
+            {
+                NgayThanhToan = DateOnly.FromDateTime(DateTime.Now),
+                TongTien = tongTienDonHang,
+                MaKh = maKh.Value
+            };
+            _context.HoaDons.Add(hoaDon);
+            _context.SaveChanges();
+            // Tạo đơn hàng
+            var donHang = new DonHang
+            {
+                MaKh = maKh.Value,
+                NgayDat = DateOnly.FromDateTime(DateTime.Now),
+                TongTien = tongTienDonHang,
+                TrangThai = "Đã xác nhận",
+                MaHd = hoaDon.MaHd,
+                MaUd = maUd
+            };
+
+            _context.DonHangs.Add(donHang);
+            _context.SaveChanges();
+
+            // Lưu chi tiết đơn hàng
+            foreach (var item in gioHang)
+            {
+                var chiTiet = new ChiTietDonHang
+                {
+                    MaDh = donHang.MaDh,
+                    MaSanPham = item.MaSanPham,
+                    SoLuong = item.SoLuong,
+                    DonGia = item.MaSanPhamNavigation.Gia
+                };
+                _context.ChiTietDonHangs.Add(chiTiet);
+            }
+
+            // Nếu dùng mã ưu đãi thì đánh dấu đã dùng
+            if (maUd.HasValue)
+            {
+                var daDung = new UuDaiKhachHang
+                {
+                    MaKh = maKh.Value,
+                    MaUd = maUd.Value,
+                    MaDh = donHang.MaDh,
+                    DaSuDung = true
+                };
+                _context.UuDaiKhachHangs.Add(daDung);
+            }
+
+            // Xoá giỏ hàng
+            _context.GioHangs.RemoveRange(gioHang);
+
+            // Lưu tất cả thay đổi
+            _context.SaveChanges();
+            HttpContext.Session.SetInt32("MaDonHangVuaDat", donHang.MaDh);
+
+            HttpContext.Session.Remove("MaUuDai");
+            HttpContext.Session.Remove("GiaGiam");
+
+            return RedirectToAction("ThanhToanThanhCongPayOS", new { id = donHang.MaDh });
+
+        }
+
+        public IActionResult ThanhToanThanhCongPayOS()
         {
             return View();
         }
+
+        //chitiethoadon
+        public IActionResult InHoaDon()
+        {
+            int? maKh = HttpContext.Session.GetInt32("MaKh");
+            int? maDh = HttpContext.Session.GetInt32("MaDonHangVuaDat");
+            if (maKh == null || maDh == null)
+                return RedirectToAction("Index", "Home");
+
+            var donHang = _context.DonHangs
+                .Where(d => d.MaDh == maDh && d.MaKh == maKh)
+                .Include(d => d.ChiTietDonHangs)
+                    .ThenInclude(c => c.MaSanPhamNavigation)
+                .Include(d => d.MaHdNavigation)
+                .FirstOrDefault();
+
+            if (donHang == null)
+                return RedirectToAction("Index", "Home");
+
+            return View("InHoaDon", donHang);
+        }
+
     }
 
 }

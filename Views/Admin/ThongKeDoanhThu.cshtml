@@ -1,0 +1,136 @@
+﻿@{
+    ViewData["Title"] = "Báo cáo doanh thu";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"]</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding: 40px;
+        }
+
+        canvas#revenueChart {
+            width: 100% !important;
+            height: 450px !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-4">
+        <h3 class="fw-bold text-primary mb-4">📊 Báo cáo doanh thu</h3>
+
+        <!-- Form lọc theo ngày -->
+        <div class="card shadow-sm mb-4 p-4">
+            <form method="get" asp-action="ThongKeDoanhThu">
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <label class="form-label fw-bold">Từ ngày</label>
+                        <input type="date" name="fromDate" class="form-control" />
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-bold">Đến ngày</label>
+                        <input type="date" name="toDate" class="form-control" />
+                    </div>
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary w-100"><i class="bi bi-search"></i> Tìm kiếm</button>
+                    </div>
+                </div>
+            </form>
+            <a href="/Admin/Index" class="btn btn-primary mt-3 w-100">Quay về</a>
+        </div>
+
+        <!-- Chỉ doanh thu -->
+        <div class="row text-center mb-4">
+            <div class="col-md-4 offset-md-4">
+                <div class="bg-primary text-white p-3 rounded">
+                    <h6>Doanh thu</h6>
+                    <h4>@(((decimal)(ViewBag.DoanhThu ?? 0)).ToString("N0")) đ</h4>
+                </div>
+            </div>
+        </div>
+
+        <!-- Biểu đồ doanh thu -->
+        <div class="card shadow-sm mb-4 p-4">
+            <h5 class="fw-bold mb-3 text-primary">📈 Doanh thu theo thời gian</h5>
+            <canvas id="revenueChart" height="100"></canvas>
+        </div>
+
+        <!-- Bảng hóa đơn -->
+        <div class="card shadow-sm p-4">
+            <h5 class="fw-bold mb-3 text-primary">📋 Danh sách hóa đơn</h5>
+            <table class="table table-bordered table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>Mã hóa đơn</th>
+                        <th>Khách hàng</th>
+                        <th>Ngày thanh toán</th>
+                        <th>Tổng tiền</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (ViewBag.DonHangList != null)
+                    {
+                        foreach (var item in ViewBag.DonHangList)
+                        {
+                            <tr>
+                                <td>@item.MaDon</td>
+                                <td>@item.TenKhach</td>
+                                <td>@item.NgayDat.ToString("dd/MM/yyyy")</td>
+                                <td>@(((decimal)item.TongTien).ToString("N0")) đ</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        const ctx = document.getElementById('revenueChart').getContext('2d');
+        const chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: @Html.Raw(Json.Serialize(ViewBag.Labels ?? new List<string>())),
+                datasets: [{
+                    label: 'Doanh thu',
+                    backgroundColor: 'rgba(0, 123, 255, 0.7)',
+                    data: @Html.Raw(Json.Serialize(ViewBag.DoanhThuData ?? new List<decimal>()))
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        labels: {
+                            font: { size: 14 }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            font: { size: 14 },
+                            callback: function (value) {
+                                return value.toLocaleString() + ' đ';
+                            }
+                        }
+                    },
+                    x: {
+                        ticks: { font: { size: 14 } }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
